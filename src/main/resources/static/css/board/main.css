@@ -1,0 +1,60 @@
+body{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+header{
+    display: flex;
+    flex-direction: row;
+}
+header > h1{
+    margin-left: 400px;
+    margin-right: 300px;
+}
+header > div{
+    padding-top: 50px;
+}
+table{
+    border-top: 1px solid black;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.no{
+    width: 40px;
+}
+.writer{
+    width: 100px;
+
+}
+.title{
+    width: 600px;
+
+}
+.date{
+    width: 80px;
+}
+.view{
+    width: 50px;
+}
+tr{
+    border-bottom: 1px solid rgba(112, 105, 105, 0.5);
+}
+th,td {
+    height: 50px;
+    font-size: 15px;
+}
+.search-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.search-container > select{
+}
+#write_btn{
+
+}
