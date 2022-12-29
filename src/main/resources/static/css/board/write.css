@@ -1,0 +1,45 @@
+body{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+header{
+    display: flex;
+    flex-direction: row;
+}
+.write-container{
+    display: flex;
+    flex-direction: column;
+}
+.write-container > input{
+    width: 500px;
+    height: 30px;
+    margin-bottom: 15px;
+}
+.write-container > textarea{
+    width: 500px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+#register-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#register-buttons > input{
+    width: 49%;
+    height: 50px;
+    cursor: pointer;
+    background-color: #757585;
+    border-color: #757585;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+#register-buttons > input:hover{
+    color: white;
+}

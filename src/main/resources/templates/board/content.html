@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 메인</title>
+</head>
+<link th:href="@{/css/board/content.css}" rel="stylesheet" href="/static/css/board/content.css">
+<!--<script th:inline="javascript">-->
+<body>
+    <header>
+        <div id="header-info">
+            <span>AAA</span>
+            <span>2022-12-30</span>
+            <span>조회: 5000</span>
+        </div>
+    </header>
+
+    <main>
+        <div id="main-container">
+            <div id="content-title">
+                <span>TITLE</span>
+            </div>
+            <div id="content-info">
+                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div id="comment-container">
+            <span>댓글(10)</span>
+            <div id="my-comment">
+                <textarea placeholder="댓글 입력창" name="comment"></textarea>
+                <input type="button" value="댓글달기">
+            </div>
+            <div class="comment-info-container">
+                <div class="comment-info">
+                    <p class="comment-nick">아이스티<span> (2022-12-29 22:15:58)(수정됨)</span></p>
+                    <span>이건 댓글입니다 이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다</span>
+                    <div class="comment-btns">
+                        <input type="button" value="수정">
+                        <input type="button" value="삭제">
+                        <input type="button" value="답글">
+                    </div>
+                </div>
+                <div class="comment-info">
+                    <p class="comment-nick">아이스티<span> (2022-12-29 22:15:58)(수정됨)</span></p>
+                    <span>이건 댓글입니다 이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다</span>
+                    <div class="comment-btns">
+                        <input type="button" value="수정">
+                        <input type="button" value="삭제">
+                        <input type="button" value="답글">
+                    </div>
+                </div>
+                <div class="comment-info">
+                    <p class="comment-nick">아이스티<span> (2022-12-29 22:15:58)(수정됨)</span></p>
+                    <span>이건 댓글입니다 이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다</span>
+                    <div class="comment-btns">
+                        <input type="button" value="수정">
+                        <input type="button" value="삭제">
+                        <input type="button" value="답글">
+                    </div>
+                </div>
+                <div class="comment-info">
+                    <p class="comment-nick">아이스티<span> (2022-12-29 22:15:58)(수정됨)</span></p>
+                    <span>이건 댓글입니다 이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다이건 댓글입니다</span>
+                    <div class="comment-btns">
+                        <input type="button" value="수정">
+                        <input type="button" value="삭제">
+                        <input type="button" value="답글">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <input id="main-btn" type="button" value="메인으로" onclick="location.href='main.html'">
+        </div>
+    </footer>
+</body>
+</html>

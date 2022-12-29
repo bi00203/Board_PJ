@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
 </head>
+<link th:href="@{/css/user/login.css}" rel="stylesheet" href="/static/css/user/login.css">
+<!--<script th:inline="javascript">-->
 <body>
+    <header>
+        <h1>일단 로그인</h1>
+    </header>
 
+    <main>
+        <form>
+            <div class="login-container">
+                    <input type="text" placeholder="아이디" name="id">
+                    <input type="text" placeholder="비밀번호" name="pw">
+            </div>
+            <div class="login-auto-container">
+                <label for="login-auto">
+                    <input type="checkbox" id="login-auto" name="remember-me">
+                    <i class="circle"></i>
+                    <span> 자동로그인 </span>
+                </label>
+            </div>
+            <div class="login-btn-container">
+                <button type="submit">로그인하기</button>
+            </div>
+        </form>
+        <div class="other-container">
+            <a class="find-id-link" href="">아이디 찾기</a>
+            <a class="register-link" href="register.html">회원가입</a>
+        </div>
+    </main>
 </body>
 </html>

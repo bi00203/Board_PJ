@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 메인</title>
+</head>
+<link th:href="@{/css/board/write.css}" rel="stylesheet" href="/static/css/board/write.css">
+<!--<script th:inline="javascript">-->
+<body>
+  <header>
+    <h1>일단 글쓰기</h1>
+  </header>
+  <main>
+    <form>
+      <div class="write-container">
+        <input type="text" placeholder="제목을 입력해주세요" name="title">
+        <textarea placeholder="내용을 입력해주세요" name="pw"></textarea>
+      </div>
+    </form>
+    <div id="register-buttons">
+      <input type="button" value="등록">
+      <input type="button" value="취소" onclick="location.href='main.html'">
+    </div>
+  </main>
+</body>
+</html>

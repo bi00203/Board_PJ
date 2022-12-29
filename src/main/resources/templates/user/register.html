@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>회원가입</title>
 </head>
+<link th:href="@{/css/user/register.css}" rel="stylesheet" href="/static/css/user/register.css">
+<!--<script th:inline="javascript">-->
 <body>
+    <header>
+        <h1>일단 회원가입</h1>
+    </header>
+    <main>
+        <form name="register-form">
+            <div id="register-container">
+                    <div class="register-input">
+                        <div class="register-input-div">
+                            <input id="register-input-id" type="text" placeholder="아이디" name="id">
+                        </div>
+                        <span>영문 또는 영문, 숫자 조합 6~12 자리</span>
+                    </div>
 
+                    <div class="register-input">
+                        <div class="register-input-div">
+                            <input id="register-input-pw" type="text" placeholder="비밀번호" name="password">
+                        </div>
+                        <span>영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15 자리</span>
+                    </div>
+
+                    <div class="register-input">
+                        <div class="register-input-div">
+                            <input id="register-input-pw-re" type="text" placeholder="비밀번호 확인">
+                        </div>
+                        <span></span>
+                    </div>
+
+                    <div class="register-input">
+                        <div class="register-input-div">
+                            <input id="register-input-nick" type="text" placeholder="닉네임" name="nick">
+                        </div>
+                        <span>특수문자 제외 2~10 자리</span>
+                    </div>
+                    <div class="register-input">
+                        <div class="register-input-div">
+                            <input id="register-input-name" type="text" placeholder="이메일" name="email">
+                        </div>
+                        <span></span>
+                    </div>
+            </div>
+
+            <div id="register-buttons">
+                <input type="button" value="확인">
+                <input type="button" value="돌아가기" onclick="location.href='login.html'">
+            </div>
+        </form>
+    </main>
 </body>
 </html>
