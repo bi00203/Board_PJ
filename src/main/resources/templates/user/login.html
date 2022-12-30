@@ -14,10 +14,11 @@
     </header>
 
     <main>
-        <form>
+        <form th:action="@{/user/login}" th:method="post" name="login-form" id="login-form">
             <div class="login-container">
-                    <input type="text" placeholder="아이디" name="id">
-                    <input type="text" placeholder="비밀번호" name="pw">
+                    <input type="text" placeholder="아이디" name="username">
+                    <input type="text" placeholder="비밀번호" name="password">
+                    <span th:if="${param.get('error')}">ID나 비밀번호가 일치하지 않습니다</span>
             </div>
             <div class="login-auto-container">
                 <label for="login-auto">
@@ -32,7 +33,7 @@
         </form>
         <div class="other-container">
             <a class="find-id-link" href="">아이디 찾기</a>
-            <a class="register-link" href="register.html">회원가입</a>
+            <a class="register-link" th:href="@{/user/register}">회원가입</a>
         </div>
     </main>
 </body>

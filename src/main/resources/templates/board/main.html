@@ -12,8 +12,8 @@
 <header>
     <h1>일단 게시판</h1>
     <div>
-        <button class="login-btn" onclick="location.href='../user/login.html'">로그인</button>
-        <button class="register-btn" onclick="location.href='../user/register.html'">회원가입</button>
+        <button class="login-btn" th:onclick="|location.href='@{/user/login}'|">로그인</button>
+        <button class="register-btn" th:onclick="|location.href='@{/user/register}'|">회원가입</button>
     </div>
 </header>
 
@@ -38,38 +38,38 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td align="center">1</td>
-                    <td class="title" onclick="location.href='content.html'">ㅁㄴㅇㄻㅇㄻㄴㅇㄻㄹ</td>
-                    <td align="center">2</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
+                <tr th:each="content: ${contents}">
+                    <td align="center">[[${content.no}]]</td>
+                    <td class="title" th:onclick="|location.href='@{/board/content}'|">[[${content.title}]]</td>
+                    <td align="center">[[${content.writer}]]</td>
+                    <td align="center">[[${content.writeDate}]]</td>
+                    <td align="center">[[${content.view}]]</td>
                 </tr>
-                <tr>
-                    <td align="center">1</td>
-                    <td class="title" onclick="location.href='../user/login.html'">ㅁㄴㅇㄹㅇㄹㄷㄹㄷㄹ</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                </tr><tr>
-                    <td align="center">1</td>
-                    <td class="title" onclick="location.href='../user/login.html'">ㅂㅂㄼㄻㄻㄹ1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                </tr><tr>
-                    <td align="center">1</td>
-                    <td class="title" onclick="location.href='../user/login.html'">ㅂㄻ류ㅠ륳ㄹ1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                </tr><tr>
-                    <td align="center">1</td>
-                    <td class="title" onclick="location.href='../user/login.html'">1ㅇㄹㅇㄹㅇㄹㄹ</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                    <td align="center">1</td>
-                </tr>
+<!--                <tr>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td class="title" onclick="location.href='../user/login.html'">ㅁㄴㅇㄹㅇㄹㄷㄹㄷㄹ</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                </tr><tr>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td class="title" onclick="location.href='../user/login.html'">ㅂㅂㄼㄻㄻㄹ1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                </tr><tr>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td class="title" onclick="location.href='../user/login.html'">ㅂㄻ류ㅠ륳ㄹ1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                </tr><tr>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td class="title" onclick="location.href='../user/login.html'">1ㅇㄹㅇㄹㅇㄹㄹ</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                    <td align="center">1</td>-->
+<!--                </tr>-->
                 </tbody>
             </table>
 
@@ -80,8 +80,8 @@
                 </select>
                 <input type="text">
                 <input type="button" value="검색">
-                <input type="button" id="write_btn" value="글쓰기">
             </div>
+            <input type="button" id="write_btn" value="글쓰기" th:onclick="|location.href='@{/board/write}'|">
         </div>
     </section>
 </main>

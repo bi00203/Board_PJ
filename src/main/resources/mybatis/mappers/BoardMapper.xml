@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oes.board_pj.mapper.BoardMapper">
+    <insert id="write" parameterType="com.oes.board_pj.vos.ContentVO">
+        INSERT INTO `content_tbl` (`title`, `mainText`,`writer`, `id`)
+        VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
+    </insert>
+
+    <select id="get_all_contents" resultType="String">
+        SELECT * FROM `content_tbl`
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
