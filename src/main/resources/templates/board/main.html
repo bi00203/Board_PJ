@@ -12,8 +12,10 @@
 <header>
     <h1>일단 게시판</h1>
     <div>
-        <button class="login-btn" th:onclick="|location.href='@{/user/login}'|">로그인</button>
-        <button class="register-btn" th:onclick="|location.href='@{/user/register}'|">회원가입</button>
+        <button class="login-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|">로그인</button>
+        <button class="register-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/register}'|">회원가입</button>
+        <button class="mypage-btn" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/user/register}'|">마이페이지</button>
+        <button class="logout-btn" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
     </div>
 </header>
 
@@ -40,7 +42,7 @@
                 <tbody>
                 <tr th:each="content: ${contents}">
                     <td align="center">[[${content.no}]]</td>
-                    <td class="title" th:onclick="|location.href='@{/board/content}'|">[[${content.title}]]</td>
+                    <td class="title" th:onclick="|location.href='@{content/{no}(no=${content.no})}'|">[[${content.title}]]</td>
                     <td align="center">[[${content.writer}]]</td>
                     <td align="center">[[${content.writeDate}]]</td>
                     <td align="center">[[${content.view}]]</td>

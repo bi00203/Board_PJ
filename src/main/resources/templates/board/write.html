@@ -17,11 +17,14 @@
   <main>
     <form name="write-form">
       <div class="write-container">
-        <input type="text" placeholder="제목을 입력해주세요" name="title">
-        <textarea placeholder="내용을 입력해주세요" name="mainText"></textarea>
+        <input th:if="${#authentication.principal.id == content.id}" type="text" placeholder="제목을 입력해주세요" th:value="${content.title}" name="title">
+        <input th:if="${#authentication.principal.id != content.id}" type="text" placeholder="제목을 입력해주세요" name="title">
+        <textarea th:if="${#authentication.principal.id == content.id}"  placeholder="내용을 입력해주세요" th:value="${content.title}" name="mainText"></textarea>
+        <textarea th:if="${#authentication.principal.id != content.id}" placeholder="내용을 입력해주세요" name="mainText"></textarea>
       </div>
     </form>
     <div id="register-buttons">
+      <input th:if="${#authentication.principal.id == content.id}" type="button" value="수정">
       <input type="button" value="등록">
       <input type="button" value="취소">
     </div>

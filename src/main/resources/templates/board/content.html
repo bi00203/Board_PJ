@@ -8,28 +8,36 @@
 </head>
 <link th:href="@{/css/board/content.css}" rel="stylesheet" href="/static/css/board/content.css">
 <!--<script th:inline="javascript">-->
+<script th:src="@{/js/board/content.js}" defer></script>
+
 <body>
     <header>
         <div id="header-info">
-            <span>AAA</span>
-            <span>2022-12-30</span>
-            <span>조회: 5000</span>
+            <span id="content-no" th:name="${content.no}" hidden>[[${content.no}]]</span>
+            <span>[[${content.writer}]]</span>
+            <span>[[${content.writeDate}]]</span>
+            <span>조회: [[${content.view}]]</span>
         </div>
     </header>
 
     <main>
         <div id="main-container">
             <div id="content-title">
-                <span>TITLE</span>
+                <span>[[${content.title}]]</span>
             </div>
             <div id="content-info">
-                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                <span>[[${content.mainText}]]</span>
             </div>
         </div>
     </main>
     <footer>
         <div id="comment-container">
-            <span>댓글(10)</span>
+            <div id="footer-select">
+                <span id="modify-span" class="footer-span" th:if="${#authentication.principal.id == content.id}">수정 |</span>
+                <span id="delete-span" class="footer-span" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
+                <span th:onclick="|location.href='@{/board/main}'|" class="footer-span">목록 |</span>
+                <span class="footer-span">댓글(10)</span>
+            </div>
             <div id="my-comment">
                 <textarea placeholder="댓글 입력창" name="comment"></textarea>
                 <input type="button" value="댓글달기">

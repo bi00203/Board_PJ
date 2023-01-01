@@ -8,9 +8,17 @@
         VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
     </insert>
 
-    <select id="get_all_contents" resultType="String">
+    <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT * FROM `content_tbl`
     </select>
+
+    <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
+        SELECT * FROM `content_tbl` WHERE `no` = #{no}
+    </select>
+
+    <delete id="content_delete">
+        DELETE FROM `content_tbl` WHERE `no` = #{no}
+    </delete>
 
 </mapper>
 
