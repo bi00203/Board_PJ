@@ -9,7 +9,7 @@
     </insert>
 
     <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
-        SELECT * FROM `content_tbl`
+        SELECT * FROM `content_tbl` ORDER BY `no` DESC
     </select>
 
     <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
@@ -19,6 +19,10 @@
     <delete id="content_delete">
         DELETE FROM `content_tbl` WHERE `no` = #{no}
     </delete>
+
+    <update id="modify_content">
+        UPDATE `content_tbl` SET `title` = #{title}, `mainText` = #{mainText}, `modifyDate` = now() WHERE `no` = #{no}
+    </update>
 
 </mapper>
 

@@ -28,4 +28,7 @@ public class BoardService {
 
     // 글 삭제
     public boolean content_delete(int no){return boardMapper.content_delete(no);};
+
+    // 글 수정
+    public boolean modify_content(int no, String title,String mainText){return boardMapper.modify_content(no,title,mainText);}
 }

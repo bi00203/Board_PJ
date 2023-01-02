@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -17,14 +18,14 @@ public class UserDTO extends User {
     private String password;
     private String nick;
     private String email;
-    private Date joinDate;
+    private LocalDateTime joinDate;
     private String role;
 
     public UserDTO(String username,
                    String password,
                    String nick,
                    String email,
-                   Date joinDate,
+                   LocalDateTime joinDate,
                    String role,
                    Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
+import java.util.Date;
 
 @Log4j2
 @Controller
@@ -26,7 +27,6 @@ public class BoardController {
     public void main_get(Model model){
         log.info("------------------------main_get-------------------");
         model.addAttribute("contents", boardService.get_all_contents());
-
     }
 
 //    @PermitAll
@@ -38,7 +38,6 @@ public class BoardController {
     @PermitAll
     @GetMapping("/content/{no}")
     public String content_get(
-            @AuthenticationPrincipal UserDTO userDTO,
             @PathVariable int no,
             Model model
     ){
@@ -50,11 +49,10 @@ public class BoardController {
 
     // 글 삭제
     @PreAuthorize("isAuthenticated()")
-    @DeleteMapping("/content/{no}")
+    @GetMapping("/delete/{no}")
     public String content_delete( @PathVariable int no){
         log.info("-------------content_delete--------------");
         boardService.content_delete(no);
-
         return "redirect:/board/main";
     }
 
@@ -64,7 +62,8 @@ public class BoardController {
     public void write_get(Model model)
     {
         ContentVO contentVO = new ContentVO();
-        log.info(contentVO);
+//        contentVO.setNo(0);
+//        log.info(contentVO);
         log.info("------------------------write_get-------------------");
         model.addAttribute("content",contentVO);
     }
@@ -73,24 +72,25 @@ public class BoardController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write/{no}")
     public String modify_get(
-            @AuthenticationPrincipal UserDTO userDTO,
             @PathVariable int no,
             Model model
     ){
         log.info("------------------------modify_get-------------------");
+        log.info(boardService.get_content(no));
         model.addAttribute("content",boardService.get_content(no));
         return "/board/write";
     }
 
     // 수정 버튼 눌렀을시
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/modify")
-    public  String modify_put(
+    @PostMapping("/modify")
+    public  String modify_post(
+            int no,
             String title,
             String mainText
     ){
-        log.info("------------------------modify_put-------------------");
-//        boardService.modify_content
+        log.info("------------------------modify_post-------------------");
+        boardService.modify_content(no,title,mainText);
         return "redirect:/board/main";
     }
 

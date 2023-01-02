@@ -23,7 +23,8 @@
     <main>
         <div id="main-container">
             <div id="content-title">
-                <span>[[${content.title}]]</span>
+                <span class="title-span">[[${content.title}]]</span>
+                <span class="modify-span" th:if="${content.writeDate != content.modifyDate}">(수정됨)</span>
             </div>
             <div id="content-info">
                 <span>[[${content.mainText}]]</span>
@@ -33,14 +34,16 @@
     <footer>
         <div id="comment-container">
             <div id="footer-select">
-                <span id="modify-span" class="footer-span" th:if="${#authentication.principal.id == content.id}">수정 |</span>
-                <span id="delete-span" class="footer-span" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
+                <span id="modify-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">수정 |</span>
+                <span id="delete-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
                 <span th:onclick="|location.href='@{/board/main}'|" class="footer-span">목록 |</span>
                 <span class="footer-span">댓글(10)</span>
             </div>
-            <div id="my-comment">
-                <textarea placeholder="댓글 입력창" name="comment"></textarea>
+            <div class="my-comment">
+                <form name="comment-form">
+                <textarea placholder="댓글 입력창" name="comment"></textarea>
                 <input type="button" value="댓글달기">
+                </form>
             </div>
             <div class="comment-info-container">
                 <div class="comment-info">

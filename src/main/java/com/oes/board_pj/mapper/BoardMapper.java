@@ -18,4 +18,7 @@ public interface BoardMapper {
 
     // 글 삭제
     boolean content_delete(int no);
+
+    // 글 수정
+    boolean modify_content(int no, String title,String mainText);
 }

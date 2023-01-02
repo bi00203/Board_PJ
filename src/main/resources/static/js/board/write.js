@@ -1,6 +1,6 @@
 const form = document.forms.namedItem('write-form');
 const [confirmBtn, cancelBtn] = [...document.getElementById('register-buttons').getElementsByTagName('input')];
-console.log(confirmBtn.value);
+console.log(form);
 confirmBtn.addEventListener('click', () => {
 
     if(confirmBtn.value == '등록') {
@@ -10,13 +10,14 @@ confirmBtn.addEventListener('click', () => {
     }
     else{
         form.action = '/board/modify';
-        form.method = 'put';
+        form.method = 'post';
         form.submit();
     }
 });
 
 cancelBtn.addEventListener('click', () => {
-    form.action = '/board/main';
-    form.method = 'get';
-    form.submit();
+    // form.action = '/board/main';
+    // form.method = 'get';
+    // form.submit();
+    location.href = `/board/main`;
 })
