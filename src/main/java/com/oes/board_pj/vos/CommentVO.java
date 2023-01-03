@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 @Builder
-public class ContentVO {
+public class CommentVO {
     int no;
-    String title;
-    String mainText;
+    int parentNo;
+    String commentText;
     String writer;
-    int view;
     LocalDateTime writeDate;
     LocalDateTime modifyDate;
     String id;
+    int contentNo;
 }

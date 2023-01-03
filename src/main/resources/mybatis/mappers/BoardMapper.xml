@@ -3,27 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oes.board_pj.mapper.BoardMapper">
+
+
+    <!-- 글 쓰기  -->
     <insert id="write" parameterType="com.oes.board_pj.vos.ContentVO">
         INSERT INTO `content_tbl` (`title`, `mainText`,`writer`, `id`)
         VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
     </insert>
 
+    <!-- 메인에서 모든 글 받아오기  -->
     <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT * FROM `content_tbl` ORDER BY `no` DESC
     </select>
 
+    <!-- 들어간 글 내용 받아오기   -->
     <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT * FROM `content_tbl` WHERE `no` = #{no}
     </select>
 
+    <!-- 글 삭제   -->
     <delete id="content_delete">
         DELETE FROM `content_tbl` WHERE `no` = #{no}
     </delete>
 
+    <!-- 글 수정   -->
     <update id="modify_content">
         UPDATE `content_tbl` SET `title` = #{title}, `mainText` = #{mainText}, `modifyDate` = now() WHERE `no` = #{no}
     </update>
 
+    <!-- 덧글 작성  -->
+    <insert id="comment_write" parameterType="com.oes.board_pj.vos.CommentVO">
+        INSERT INTO `comment_tbl` (`commentText`, `writer`,`id`, `contentNo`)
+        VALUES (#{commentText}, #{writer}, #{id}, #{contentNo})
+    </insert>
+
+    <!-- 댓글 작성후 parentNo 추가하기-->
+    <update id="comment_update_parent">
+        UPDATE `comment_tbl` SET `parentNo` = `no` WHERE `parentNo` = 0
+    </update>
+    <!-- 덧글 가져오기 -->
+    <select id="get_all_comments" resultType="com.oes.board_pj.vos.CommentVO">
+        SELECT * FROM `comment_tbl` WHERE `contentNo` = #{no} ORDER BY `parentNo`, `no`
+    </select>
 </mapper>
 
 

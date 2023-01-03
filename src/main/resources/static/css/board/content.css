@@ -119,6 +119,7 @@ footer{
     display: flex;
     flex-direction: row;
     justify-content: right;
+    margin-bottom: 10px;
 }
 .comment-btns > input{
     background-color: white;
@@ -137,4 +138,5 @@ footer{
     height: 50px;
     cursor: pointer;
 }
+
 

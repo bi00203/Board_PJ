@@ -44,6 +44,7 @@ public class BoardController {
         log.info("-------------content_get--------------" + no);
         // 해당 글의 정보
         model.addAttribute("content",boardService.get_content(no));
+        model.addAttribute("comments",boardService.get_all_comments(no));
         return "/board/content";
     }
 
@@ -94,6 +95,7 @@ public class BoardController {
         return "redirect:/board/main";
     }
 
+    // 글 등록
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String write_post(
@@ -108,5 +110,25 @@ public class BoardController {
         String[] writeInfo = {title,mainText, userDTO.getNick(), userDTO.getId()};
         boardService.write(writeInfo);
         return "redirect:/board/main";
+    }
+
+    // 댓글 등록
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/comment")
+    public String comment_post(
+            @AuthenticationPrincipal UserDTO userDTO,
+            int contentNo,
+            String commentText
+    ){
+        log.info("------------------------comment_post-------------------");
+        log.info(userDTO.getId());
+        log.info(userDTO.getNick());
+        log.info(contentNo);
+        log.info(commentText);
+        String id = userDTO.getId();
+        String writer = userDTO.getNick();
+        boardService.comment_write(commentText,writer,id,contentNo);
+        boardService.comment_update_parent();
+        return "redirect:/board/content/" + contentNo;
     }
 }

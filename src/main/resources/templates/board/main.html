@@ -44,7 +44,7 @@
                     <td align="center">[[${content.no}]]</td>
                     <td class="title" th:onclick="|location.href='@{content/{no}(no=${content.no})}'|">[[${content.title}]]</td>
                     <td align="center">[[${content.writer}]]</td>
-                    <td align="center">[[${content.writeDate}]]</td>
+                    <td align="center" th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd hh:mm')}">[[${content.writeDate}]]</td>
                     <td align="center">[[${content.view}]]</td>
                 </tr>
 <!--                <tr>-->

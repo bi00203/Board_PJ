@@ -1,5 +1,6 @@
 package com.oes.board_pj.mapper;
 
+import com.oes.board_pj.vos.CommentVO;
 import com.oes.board_pj.vos.ContentVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,4 +22,13 @@ public interface BoardMapper {
 
     // 글 수정
     boolean modify_content(int no, String title,String mainText);
+
+    // 덧글 쓰기
+    boolean comment_write(String commentText, String writer, String id, int contentNo);
+
+    // 덧글 쓸때 parentNo 붙이기
+    boolean comment_update_parent();
+
+    // 덧글들 가져오기
+    List<CommentVO> get_all_comments(int no);
 }
