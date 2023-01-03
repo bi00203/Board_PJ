@@ -5,10 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <title>게시판 메인</title>
+    <script src="https://kit.fontawesome.com/2404a35405.js" crossorigin="anonymous"></script>
+    <link th:href="@{/css/board/content.css}" rel="stylesheet" href="/static/css/board/content.css">
+    <!--<script th:inline="javascript">-->
+    <script th:src="@{/js/board/content.js}" defer></script>
 </head>
-<link th:href="@{/css/board/content.css}" rel="stylesheet" href="/static/css/board/content.css">
-<!--<script th:inline="javascript">-->
-<script th:src="@{/js/board/content.js}" defer></script>
+
 
 <body>
     <header>
@@ -37,7 +39,7 @@
                 <span id="modify-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">수정 |</span>
                 <span id="delete-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
                 <span th:onclick="|location.href='@{/board/main}'|" class="footer-span">목록 |</span>
-                <span class="footer-span">댓글(10)</span>
+                <span class="footer-span">댓글([[${comments.size()}]])</span>
             </div>
             <div class="my-comment">
                 <form name="comment-form" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|" >
@@ -52,22 +54,46 @@
             </div>
             <div class="comment-info-container">
                 <div class="comment-info" th:each="comment : ${comments}">
-                    <p class="comment-nick">[[${comment.writer}]]
-                        <span class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy-MM-dd hh:mm:ss')}]])</span>
-                        <span class="comment-modify" th:if="${comment.writeDate != comment.modifyDate}">(수정됨)</span>
-                    </p>
-                    <span class="comment-text">[[${comment.commentText}]]</span>
-                    <div class="comment-btns">
-                        <input type="button" value="수정">
-                        <input type="button" value="삭제">
-                        <input type="button" value="답글" onclick="display_reply(this)">
+                            <!--      답글일 경우              -->
+                    <div class="is-reply" th:if="${comment.no != comment.parentNo}">
+                        <i class="fa-solid fa-reply fa-lg fa-rotate-180"></i>
+                        <div class="is-reply-info">
+                            <p class="comment-nick">[[${comment.writer}]]
+                                <span th:if="${comment.id == content.id}" class="content-writer">(작성자)</span>
+                                <span class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy-MM-dd hh:mm:ss')}]])</span>
+                                <span class="comment-modify" th:if="${comment.writeDate != comment.modifyDate}">(수정됨)</span>
+                            </p>
+                            <span class="comment-text">[[${comment.commentText}]]</span>
+                            <div class="reply-btns">
+                                <input type="number" th:value="${comment.no}" hidden>
+                                <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id}">
+                                <input type="button" value="삭제" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id}" onclick="delete_comment(this)">
+                            </div>
+                        </div>
                     </div>
-                    <div class="my-comment">
-                        <form class="reply-form" th:name="${comment.no}" sec:authorize="isAuthenticated()">
-                            <textarea placeholder="답글 입력" name="commentText" ></textarea>
-                            <input type="number" name="contentNo" th:value="${content.no}" hidden>
-                            <input type="button" class="reply-write" value="답글달기" onclick="reply_comment(this)" >
-                        </form>
+                            <!--     댓글일 경우            -->
+                    <div class="is-comment" th:if="${comment.no == comment.parentNo}">
+                        <p class="comment-nick">[[${comment.writer}]]
+                            <span th:if="${comment.id == content.id}" class="content-writer">(작성자)</span>
+                            <span th:if="${comment.writer != '삭제된 댓글'}" class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy-MM-dd hh:mm:ss')}]])</span>
+                            <span th:if="${comment.writer != '삭제된 댓글' && comment.writeDate != comment.modifyDate }" class="comment-modify">(수정됨)</span>
+                        </p>
+                        <span class="comment-text">[[${comment.commentText}]]</span>
+                        <div class="comment-btns">
+                            <input type="number" th:value="${comment.no}" hidden>
+                            <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id && comment.writer != '삭제된 댓글'}">
+                            <input type="button" value="삭제" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id && comment.writer != '삭제된 댓글'}" onclick="delete_comment(this)">
+                            <input type="button" value="답글" sec:authorize="isAnonymous()" th:if="${comment.writer != '삭제된 댓글'}" th:onclick="|location.href='@{/user/login}'|">
+                            <input type="button" value="답글" sec:authorize="isAuthenticated()" th:if="${comment.writer != '삭제된 댓글'}" onclick="display_reply(this)">
+                        </div>
+                        <div class="my-comment" style="display: none">
+                            <form class="reply-form" sec:authorize="isAuthenticated()">
+                                <textarea placeholder="답글 입력" name="commentText" ></textarea>
+                                <input type="number" name="commentNo" th:value="${comment.no}" hidden>
+                                <input type="number" name="contentNo" th:value="${content.no}" hidden>
+                                <input type="button" class="reply-write" value="답글달기" onclick="reply_comment(this)" >
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

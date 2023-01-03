@@ -20,6 +20,9 @@ public interface BoardMapper {
     // 글 삭제
     boolean content_delete(int no);
 
+    // 글 삭제할때 덧글도 같이 삭제
+    boolean comment_delete_in_content(int no);
+
     // 글 수정
     boolean modify_content(int no, String title,String mainText);
 
@@ -31,4 +34,17 @@ public interface BoardMapper {
 
     // 덧글들 가져오기
     List<CommentVO> get_all_comments(int no);
+
+    // 답글 달기
+    boolean reply_write(int commentNo, String commentText, String writer, String id, int contentNo);
+
+    // 덧글을 삭제할때 답글이 있는지 검사
+    int comment_has_reply(int no);
+
+
+    // 댓글 삭제
+    boolean comment_delete(int no);
+
+    // 댓글 더미로
+    boolean comment_make_dummy(int no);
 }

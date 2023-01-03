@@ -30,6 +30,11 @@ public class BoardService {
     // 글 삭제
     public boolean content_delete(int no){return boardMapper.content_delete(no);};
 
+    // 글 삭제 할때 덧글도 같이 삭제
+    public boolean comment_delete_in_content(int no) {
+        return boardMapper.comment_delete_in_content(no);
+    }
+
     // 글 수정
     public boolean modify_content(int no, String title,String mainText){return boardMapper.modify_content(no,title,mainText);}
 
@@ -45,4 +50,24 @@ public class BoardService {
     // 덧글 가져오기
     public List<CommentVO> get_all_comments(int no) { return boardMapper.get_all_comments(no);}
 
+    // 답글 쓰기
+    public boolean reply_write(int commentNo, String commentText, String writer, String id, int contentNo) {
+        return boardMapper.reply_write(commentNo,commentText,writer,id,contentNo);
+    }
+
+
+    // 덧글을 삭제할때 답글이 있는지 검사
+    public int comment_has_reply(int no) {
+        return boardMapper.comment_has_reply(no);
+    }
+
+    // 댓글 삭제
+    public boolean comment_delete(int no) {
+        return boardMapper.comment_delete(no);
+    }
+
+    // 댓글 더미로 유지
+    public boolean comment_make_dummy(int no) {
+        return boardMapper.comment_make_dummy(no);
+    }
 }

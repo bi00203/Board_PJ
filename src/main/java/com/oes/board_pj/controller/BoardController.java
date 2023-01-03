@@ -29,12 +29,6 @@ public class BoardController {
         model.addAttribute("contents", boardService.get_all_contents());
     }
 
-//    @PermitAll
-//    @GetMapping("/content")
-//    public void content_get(){
-//        log.info("------------------------content_get-------------------");
-//    }
-
     @PermitAll
     @GetMapping("/content/{no}")
     public String content_get(
@@ -54,6 +48,8 @@ public class BoardController {
     public String content_delete( @PathVariable int no){
         log.info("-------------content_delete--------------");
         boardService.content_delete(no);
+        //덧글도 삭제
+        boardService.comment_delete_in_content(no);
         return "redirect:/board/main";
     }
 
@@ -129,6 +125,46 @@ public class BoardController {
         String writer = userDTO.getNick();
         boardService.comment_write(commentText,writer,id,contentNo);
         boardService.comment_update_parent();
+        return "redirect:/board/content/" + contentNo;
+    }
+
+    // 답글 달기
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/reply")
+    public String reply_post(
+            @AuthenticationPrincipal UserDTO userDTO,
+            int contentNo,
+            int commentNo,
+            String commentText
+    ){
+        log.info("------------------------reply_post-------------------");
+        log.info(userDTO.getId());
+        log.info(userDTO.getNick());
+        log.info(contentNo);
+        log.info(commentNo);
+        log.info(commentText);
+        String id = userDTO.getId();
+        String writer = userDTO.getNick();
+        boardService.reply_write(commentNo,commentText,writer,id,contentNo);
+//        boardService.comment_update_parent();
+        return "redirect:/board/content/" + contentNo;
+    }
+
+    // 댓글, 답글 삭제
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/comment/delete/{no}/{contentNo}")
+    public String comment_delete(
+            @PathVariable int no,
+            @PathVariable int contentNo){
+        log.info("-------------comment_delete--------------");
+        // 덧글을 삭제할때 답글이 있는지 검사
+        if(boardService.comment_has_reply(no) == 1 || boardService.comment_has_reply(no) == 0){
+            //답글이 없다면
+            boardService.comment_delete(no);
+        }
+        else{
+            boardService.comment_make_dummy(no);
+        }
         return "redirect:/board/content/" + contentNo;
     }
 }

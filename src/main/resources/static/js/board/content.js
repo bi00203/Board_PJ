@@ -1,15 +1,14 @@
 const deleteBtn = document.getElementById('delete-span');
 const modifyBtn = document.getElementById('modify-span');
-const no = document.getElementById("content-no").getAttribute('name')
+const contentNo = document.getElementById("content-no").getAttribute('name')
 const commentForm = document.forms.namedItem('comment-form');
 const commentBtn = document.getElementById('comment-write');
-
 if(deleteBtn !== null) {
 // 글 삭제
     deleteBtn.addEventListener('click', () => {
         console.log(no);
         if (confirm("정말 삭제하시겠습니까?") == true) {
-            location.href = `/board/delete/${no}`;
+            location.href = `/board/delete/${contentNo}`;
         } else {
             return false;
         }
@@ -19,18 +18,21 @@ if(deleteBtn !== null) {
 if(modifyBtn !== null) {
     // 글 수정
     modifyBtn.addEventListener('click', () => {
-        location.href = `/board/write/${no}`;
+        location.href = `/board/write/${contentNo}`;
     })
 
 }
 
+if(commentBtn !== null) {
 // 덧글 달기
-commentBtn.addEventListener('click', () => {
-    commentForm.action = '/board/comment';
-    commentForm.method = 'post';
-    commentForm.submit();
-})
+    commentBtn.addEventListener('click', () => {
+        commentForm.action = '/board/comment';
+        commentForm.method = 'post';
+        commentForm.submit();
+    })
+}
 
+// 답글 창 띄우기
 function display_reply(button){
     const commentChildDiv = button.parentElement.nextElementSibling;
 
@@ -42,9 +44,21 @@ function display_reply(button){
     }
 }
 
+// 답글 달기
 function reply_comment(button){
     const replyForm = button.parentElement;
-    replyForm.action = '/board/reply/' + replyForm.name;
+    replyForm.action = '/board/reply';
     replyForm.method = 'post';
     replyForm.submit();
+}
+
+// 댓글 삭제
+function delete_comment(button){
+    const commentNo = button.parentElement.firstElementChild.value;
+    if (confirm("정말 삭제하시겠습니까?") == true) {
+        location.href = `/board/comment/delete/${commentNo}/${contentNo}`;
+    }
+    else{
+        return false;
+    }
 }
