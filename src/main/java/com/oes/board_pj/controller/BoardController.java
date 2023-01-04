@@ -29,6 +29,19 @@ public class BoardController {
         model.addAttribute("contents", boardService.get_all_contents());
     }
 
+    // 검색
+    @PermitAll
+    @GetMapping("/main/{selected}/{searchText}")
+    public String search_get(
+            @PathVariable String selected,
+            @PathVariable String searchText,
+            Model model){
+        log.info("------------------------search_get-------------------");
+        searchText = '%' + searchText + '%';
+        model.addAttribute("contents", boardService.get_search_contents(selected,searchText));
+        return "/board/main";
+    }
+
     @PermitAll
     @GetMapping("/content/{no}")
     public String content_get(
@@ -36,6 +49,8 @@ public class BoardController {
             Model model
     ){
         log.info("-------------content_get--------------" + no);
+        // 조회수 증가
+        boardService.update_view(no);
         // 해당 글의 정보
         model.addAttribute("content",boardService.get_content(no));
         model.addAttribute("comments",boardService.get_all_comments(no));

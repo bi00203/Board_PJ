@@ -13,13 +13,25 @@
 
     <!-- 메인에서 모든 글 받아오기  -->
     <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
-        SELECT * FROM `content_tbl` ORDER BY `no` DESC
+<!--        SELECT * FROM `content_tbl` ORDER BY `no` DESC-->
+        SELECT content.*,
+        (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
+        FROM `content_tbl` content ORDER BY content.`no` DESC;
     </select>
 
+    <!-- 메인에서 검색한 글들 받아오기  -->
+    <select id="get_search_contents" resultType="com.oes.board_pj.vos.ContentVO">
+        SELECT * FROM `content_tbl` WHERE `${selected}` LIKE #{searchText} ORDER BY `no` DESC;
+    </select>
     <!-- 들어간 글 내용 받아오기   -->
     <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT * FROM `content_tbl` WHERE `no` = #{no}
     </select>
+
+    <!-- 조회수 증가   -->
+    <update id="update_view">
+        UPDATE `content_tbl` SET `view` = `view` + 1 WHERE `no` = #{no}
+    </update>
 
     <!-- 글 삭제   -->
     <delete id="content_delete">
@@ -46,7 +58,7 @@
     <update id="comment_update_parent">
         UPDATE `comment_tbl` SET `parentNo` = `no` WHERE `parentNo` = 0
     </update>
-    <!-- 덧글 가져오기 -->
+    <!-- 해당 글의 덧글 가져오기 -->
     <select id="get_all_comments" resultType="com.oes.board_pj.vos.CommentVO">
         SELECT * FROM `comment_tbl` WHERE `contentNo` = #{no} ORDER BY `parentNo`, `no`
     </select>

@@ -13,9 +13,13 @@ header{
 header > h1{
     margin-left: 370px;
     margin-right: 270px;
+    cursor: pointer;
 }
 header > div{
     padding-top: 50px;
+}
+main{
+    margin-bottom: 40px;
 }
 table{
     border-top: 1px solid black;
@@ -62,11 +66,23 @@ th,td {
 section > div{
     position: relative;
 }
+#search-btn{
+    cursor: pointer;
+}
 #write_btn{
     position: absolute;
     right: 0;
+    cursor: pointer;
 }
-
-.title:hover{
+tr:not(thead > tr):hover{
     background-color: rgba(203, 194, 194, 0.5);
+}
+td > .reply-cnt{
+    margin-left: 5px;
+    color: #ef8383;
+    font-size: 15px;
+    font-weight: bold;
+}
+button{
+    cursor: pointer;
 }

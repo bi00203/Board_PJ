@@ -24,6 +24,10 @@ public class BoardService {
     //글 목록 가져오기
     public List<ContentVO> get_all_contents() { return boardMapper.get_all_contents();}
 
+    // 검색한 글 목록 가져오기
+    public List<ContentVO> get_search_contents(String selected, String searchText) {
+        return boardMapper.get_search_contents(selected,searchText);
+    }
     // 해당 글 정보 가져오기
     public ContentVO get_content(int no){return boardMapper.get_content(no);}
 
@@ -69,5 +73,11 @@ public class BoardService {
     // 댓글 더미로 유지
     public boolean comment_make_dummy(int no) {
         return boardMapper.comment_make_dummy(no);
+    }
+
+
+    // 조회수 증가
+    public boolean update_view(int no) {
+        return boardMapper.update_view(no);
     }
 }

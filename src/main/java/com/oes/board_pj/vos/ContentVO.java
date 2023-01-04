@@ -20,4 +20,5 @@ public class ContentVO {
     LocalDateTime writeDate;
     LocalDateTime modifyDate;
     String id;
+    int hasReply;
 }
