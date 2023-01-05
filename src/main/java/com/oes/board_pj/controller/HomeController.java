@@ -10,6 +10,7 @@ import javax.annotation.security.PermitAll;
 @Controller
 public class HomeController {
 
+    // 일단 있어야 할 것 같은 home
     @PermitAll
     @GetMapping("/")
     public String main(){

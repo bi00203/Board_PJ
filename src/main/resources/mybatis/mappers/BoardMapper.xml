@@ -5,47 +5,56 @@
 <mapper namespace="com.oes.board_pj.mapper.BoardMapper">
 
 
-    <!-- 글 쓰기  -->
-    <insert id="write" parameterType="com.oes.board_pj.vos.ContentVO">
-        INSERT INTO `content_tbl` (`title`, `mainText`,`writer`, `id`)
-        VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
-    </insert>
+    <!-- =======================게시판 메인 페이징 관련============================ -->
 
     <!-- 전체 글 개수 가져오기   -->
     <select id="get_all_contents_cnt" resultType="_int">
         SELECT count(*) FROM `content_tbl`;
     </select>
 
+    <!--  현재 페이지에 있는 글 가져오기  -->
     <select id="get_contents_in_page" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT content.*,
         (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
         FROM `content_tbl` content ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
 
-    <!-- 메인에서 모든 글 받아오기  -->
-    <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
-<!--        SELECT * FROM `content_tbl` ORDER BY `no` DESC-->
-        SELECT content.*,
-        (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
-        FROM `content_tbl` content ORDER BY content.`no` DESC;
+    <!-- 검색한 글 개수 가져오기   -->
+    <select id="get_search_contents_cnt" resultType="_int">
+        SELECT count(*) FROM `content_tbl` WHERE `${selected}` LIKE #{searchText};
     </select>
 
-    <!-- 메인에서 검색한 글들 받아오기  -->
-    <select id="get_search_contents" resultType="com.oes.board_pj.vos.ContentVO">
+    <!-- 검색한 글들 중 현재 페이지에 해당하는 목록  -->
+    <select id="get_search_contents_in_page" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT content.*,
         (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
-        FROM `content_tbl` content WHERE content.`${selected}` LIKE #{searchText} ORDER BY content.`no` DESC;
-<!--        SELECT * FROM `content_tbl` WHERE `${selected}` LIKE #{searchText} ORDER BY `no` DESC;-->
+        FROM `content_tbl` content WHERE content.`${selected}` LIKE #{searchText} ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
+
+    <!-- ======================= 글 들어갔을 때 내부 정보 ============================ -->
+
     <!-- 들어간 글 내용 받아오기   -->
     <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT * FROM `content_tbl` WHERE `no` = #{no}
+    </select>
+
+    <!-- 해당 글의 덧글 가져오기 -->
+    <select id="get_all_comments" resultType="com.oes.board_pj.vos.CommentVO">
+        SELECT * FROM `comment_tbl` WHERE `contentNo` = #{no} ORDER BY `parentNo`, `no`
     </select>
 
     <!-- 조회수 증가   -->
     <update id="update_view">
         UPDATE `content_tbl` SET `view` = `view` + 1 WHERE `no` = #{no}
     </update>
+
+    <!-- ======================= 글 관련 ============================ -->
+
+    <!-- 글 쓰기  -->
+    <insert id="write" parameterType="com.oes.board_pj.vos.ContentVO">
+        INSERT INTO `content_tbl` (`title`, `mainText`,`writer`, `id`)
+        VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
+    </insert>
 
     <!-- 글 삭제   -->
     <delete id="content_delete">
@@ -62,6 +71,8 @@
         UPDATE `content_tbl` SET `title` = #{title}, `mainText` = #{mainText}, `modifyDate` = now() WHERE `no` = #{no}
     </update>
 
+    <!-- ======================= 덧글 관련 ============================ -->
+
     <!-- 덧글 작성  -->
     <insert id="comment_write" parameterType="com.oes.board_pj.vos.CommentVO">
         INSERT INTO `comment_tbl` (`commentText`, `writer`,`id`, `contentNo`)
@@ -72,10 +83,6 @@
     <update id="comment_update_parent">
         UPDATE `comment_tbl` SET `parentNo` = `no` WHERE `parentNo` = 0
     </update>
-    <!-- 해당 글의 덧글 가져오기 -->
-    <select id="get_all_comments" resultType="com.oes.board_pj.vos.CommentVO">
-        SELECT * FROM `comment_tbl` WHERE `contentNo` = #{no} ORDER BY `parentNo`, `no`
-    </select>
 
     <!-- 답글 달기   -->
     <insert id="reply_write" parameterType="com.oes.board_pj.vos.ContentVO">
@@ -93,7 +100,7 @@
         DELETE FROM `comment_tbl` WHERE `no` = #{no}
     </delete>
 
-    <!-- 댓글 더미로   -->
+    <!-- 댓글 밑에 답글이 있다면 더미를 남겨둔다 -->
     <update id="comment_make_dummy">
         UPDATE `comment_tbl` SET `commentText` = '삭제된 댓글입니다.', `writer` = '삭제된 댓글' WHERE `no` = #{no}
     </update>

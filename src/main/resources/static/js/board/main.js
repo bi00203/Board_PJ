@@ -6,15 +6,15 @@ const PageViewUl = document.getElementById('page-container').getElementsByTagNam
 view_page_list();
 
 function search_contents(){
-    // const searchText = '%' + searchInfo.value.trim() + '%';
-    const searchText = encodeURI(searchInfo.value.trim());
-    console.log(searchText);
-    if(searchText ==''){
-        alert("내용을 입력해주세요");
+    if(searchInfo.value.trim().length < 2 || searchInfo.value.trim() == ""){
+        alert("2글자 이상 키워드를 입력해주세요");
         return false;
     }
+    const searchText = encodeURI(searchInfo.value.trim());
+
+
     const selected = searchSelector.options[searchSelector.selectedIndex].value;
-    location.href = `/board/main/${selected}/${searchText}`;
+    location.href = `/board/main/${selected}/${searchText}/` + 1;
 }
 
 function view_page_list(){
@@ -63,5 +63,11 @@ function show_next_page_list(){
 // 클릭하면 해당 페이지로 이동
 function move_page(pageNum){
     console.log(pageNum);
-    location.href = `/board/main/${pageNum}`;
+
+    if(isSearched == false) {
+        location.href = `/board/main/${pageNum}`;
+    }
+    else{
+        location.href = `/board/main/${selected}/${searchText}/${pageNum}`;
+    }
 }

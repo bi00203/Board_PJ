@@ -24,6 +24,7 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    // 메인 -> 바로 게시판 1페이지로 이동
     @PermitAll
     @GetMapping("/main")
     public String main_get(Model model){
@@ -31,24 +32,26 @@ public class BoardController {
         return "redirect:/board/main/" + 1;
     }
 
+    // 해당 페이지의 정보 처리
     @PermitAll
     @GetMapping("/main/{pageNum}")
-    public String page_get(
+    public String main_get(
             @PathVariable int pageNum,
             Model model
     ){
-        log.info("------------------------page_get-------------------");
+        log.info("------------------------main_get-------------------");
         int order = (pageNum - 1) * 10;
         int allContentCnt = boardService.get_all_contents_cnt();
         List<ContentVO> contents = boardService.get_contents_in_page(order);
-        ContentPageDTO contentPageDTO = new ContentPageDTO(allContentCnt, pageNum, contents);
+        ContentPageDTO contentPageDTO = new ContentPageDTO(allContentCnt, pageNum, contents, false);
 
         log.info("contentPageDTO = " + contentPageDTO);
         model.addAttribute("page", contentPageDTO);
         return "/board/main";
     }
 
-    // 검색
+    // 검색, 최초는 1페이지로
+    // 검색한 컨텐츠만 가져오고 메인과 동일하다
     @PermitAll
     @GetMapping("/main/{selected}/{searchText}/{pageNum}")
     public String search_get(
@@ -57,11 +60,21 @@ public class BoardController {
             @PathVariable int pageNum,
             Model model){
         log.info("------------------------search_get-------------------");
+        String backupSearchText = searchText;
         searchText = '%' + searchText + '%';
-        model.addAttribute("contents", boardService.get_search_contents(selected,searchText));
+        int order = (pageNum - 1) * 10;
+        int searchContentCnt = boardService.get_search_contents_cnt(selected,searchText);
+        List<ContentVO> contents = boardService.get_search_contents_in_page(selected,searchText,order);
+        ContentPageDTO contentPageDTO = new ContentPageDTO(searchContentCnt, pageNum, contents, true);
+
+        model.addAttribute("page", contentPageDTO);
+        // 검색상태를 유지한 채 페이지 이동을 위해 해당 변수를 다시 전달한다
+        model.addAttribute("selected",selected);
+        model.addAttribute("searchText",backupSearchText);
         return "/board/main";
     }
 
+    // 글을 클릭했을 때
     @PermitAll
     @GetMapping("/content/{no}")
     public String content_get(
@@ -94,8 +107,6 @@ public class BoardController {
     public void write_get(Model model)
     {
         ContentVO contentVO = new ContentVO();
-//        contentVO.setNo(0);
-//        log.info(contentVO);
         log.info("------------------------write_get-------------------");
         model.addAttribute("content",contentVO);
     }
@@ -152,10 +163,6 @@ public class BoardController {
             String commentText
     ){
         log.info("------------------------comment_post-------------------");
-        log.info(userDTO.getId());
-        log.info(userDTO.getNick());
-        log.info(contentNo);
-        log.info(commentText);
         String id = userDTO.getId();
         String writer = userDTO.getNick();
         boardService.comment_write(commentText,writer,id,contentNo);

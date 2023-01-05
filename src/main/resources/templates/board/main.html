@@ -12,6 +12,9 @@
         const nowPageNum = [[${page.nowPageNum}]];
         let startPageNum = [[${page.startPageNum}]];
         let endPageNum = [[${page.endPageNum}]];
+        const isSearched = [[${page.isSearched}]];
+        const selected = [[${selected}]];
+        const searchText = [[${searchText}]];
     </script>
 
 </head>
@@ -52,7 +55,7 @@
                     <td align="center">[[${content.no}]]</td>
                     <td class="title" th:onclick="|location.href='@{/board/content/{no}(no=${content.no})}'|"><span>[[${content.title}]]</span><span class="reply-cnt">[<span>[[${content.hasReply}]]</span>]</span></td>
                     <td align="center">[[${content.writer}]]</td>
-                    <td align="center" th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd hh:mm')}">[[${content.writeDate}]]</td>
+                    <td align="center" th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd HH:mm')}">[[${content.writeDate}]]</td>
                     <td align="center">[[${content.view}]]</td>
                 </tr>
                 </tbody>
@@ -60,13 +63,7 @@
 
             <div id="page-container">
                 <ul>
-                    <li onclick="show_prev_page_list()">이전</li>
-                    <li value="1" onclick="move_page(this.value)">1</li>
-                    <li value="1">2</li>
-                    <li value="1">3</li>
-                    <li value="1">4</li>
-                    <li value="1">5</li>
-                    <li onclick="show_next_page_list()">다음</li>
+
                 </ul>
                 <input type="button" id="write_btn" value="글쓰기" th:onclick="|location.href='@{/board/write}'|">
             </div>

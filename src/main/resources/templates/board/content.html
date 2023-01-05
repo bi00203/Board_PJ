@@ -17,7 +17,7 @@
         <div id="header-info">
             <span id="content-no" th:name="${content.no}" hidden>[[${content.no}]]</span>
             <span>[[${content.writer}]]</span>
-            <span th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd hh:mm')}">[[${content.writeDate}]]</span>
+            <span th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd HH:mm')}">[[${content.writeDate}]]</span>
             <span>조회: [[${content.view}]]</span>
         </div>
     </header>

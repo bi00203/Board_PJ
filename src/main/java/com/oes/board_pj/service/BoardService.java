@@ -16,20 +16,48 @@ public class BoardService {
     @Autowired
     private BoardMapper boardMapper;
 
+    // ----------------------------- 게시판 메인 페이징 관련 --------------------------------------------------
+
+    // 전체 글 개수 가져오기
+    public int get_all_contents_cnt() {
+        return boardMapper.get_all_contents_cnt();
+    }
+
+    // 현재 페이지에 해당하는 글 목록
+    public List<ContentVO> get_contents_in_page(int order) {
+        return boardMapper.get_contents_in_page(order);
+    }
+
+    // 검색한 글 개수 가져오기
+    public int get_search_contents_cnt(String selected, String searchText) {
+        return boardMapper.get_search_contents_cnt(selected, searchText);
+    }
+
+    // 검색한 글들 중 현재 페이지에 해당하는 목록
+    public List<ContentVO> get_search_contents_in_page(String selected, String searchText,int order) {
+        return boardMapper.get_search_contents_in_page(selected,searchText,order);
+    }
+
+    // ----------------------------- 글 들어갔을 때 내부 정보 --------------------------------------------------
+
+    // 해당 글 정보 가져오기
+    public ContentVO get_content(int no){return boardMapper.get_content(no);}
+
+    // 덧글 가져오기
+    public List<CommentVO> get_all_comments(int no) { return boardMapper.get_all_comments(no);}
+
+    // 조회수 증가
+    public boolean update_view(int no) {
+        return boardMapper.update_view(no);
+    }
+
+
+    // ----------------------------- 글 관련 --------------------------------------------------
+
     //글 쓰기
     public boolean write(String[] writeInfo){
         return boardMapper.write(writeInfo);
     }
-
-    //글 목록 가져오기
-    public List<ContentVO> get_all_contents() { return boardMapper.get_all_contents();}
-
-    // 검색한 글 목록 가져오기
-    public List<ContentVO> get_search_contents(String selected, String searchText) {
-        return boardMapper.get_search_contents(selected,searchText);
-    }
-    // 해당 글 정보 가져오기
-    public ContentVO get_content(int no){return boardMapper.get_content(no);}
 
     // 글 삭제
     public boolean content_delete(int no){return boardMapper.content_delete(no);};
@@ -42,6 +70,9 @@ public class BoardService {
     // 글 수정
     public boolean modify_content(int no, String title,String mainText){return boardMapper.modify_content(no,title,mainText);}
 
+
+    // ----------------------------- 댓글, 답글 관련 --------------------------------------------------
+
     // 덧글 쓰기
     public boolean comment_write(String commentText, String writer, String id, int contentNo) {
         return boardMapper.comment_write(commentText,writer,id,contentNo);
@@ -51,8 +82,7 @@ public class BoardService {
         return boardMapper.comment_update_parent();
     }
 
-    // 덧글 가져오기
-    public List<CommentVO> get_all_comments(int no) { return boardMapper.get_all_comments(no);}
+
 
     // 답글 쓰기
     public boolean reply_write(int commentNo, String commentText, String writer, String id, int contentNo) {
@@ -71,22 +101,8 @@ public class BoardService {
     }
 
     // 댓글 더미로 유지
-    public boolean comment_make_dummy(int no) {
-        return boardMapper.comment_make_dummy(no);
-    }
+    public boolean comment_make_dummy(int no) { return boardMapper.comment_make_dummy(no); }
 
 
-    // 조회수 증가
-    public boolean update_view(int no) {
-        return boardMapper.update_view(no);
-    }
-    // 전체 글 개수 가져오기
-    public int get_all_contents_cnt() {
-        return boardMapper.get_all_contents_cnt();
-    }
 
-    // 현재 페이지에 해당하는 글들 가져오기
-    public List<ContentVO> get_contents_in_page(int order) {
-        return boardMapper.get_contents_in_page(order);
-    }
 }
