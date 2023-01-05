@@ -53,4 +53,10 @@ public interface BoardMapper {
 
     // 조회수 증가
     boolean update_view(int no);
+
+    // 전체 글 개수 가져오기
+    int get_all_contents_cnt();
+
+    // 현재 페이지에 해당하는 글들 가져오기
+    List<ContentVO> get_contents_in_page(int order);
 }

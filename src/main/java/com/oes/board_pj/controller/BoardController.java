@@ -1,5 +1,6 @@
 package com.oes.board_pj.controller;
 
+import com.oes.board_pj.dtos.ContentPageDTO;
 import com.oes.board_pj.dtos.UserDTO;
 import com.oes.board_pj.service.BoardService;
 import com.oes.board_pj.vos.ContentVO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -24,17 +26,35 @@ public class BoardController {
 
     @PermitAll
     @GetMapping("/main")
-    public void main_get(Model model){
+    public String main_get(Model model){
         log.info("------------------------main_get-------------------");
-        model.addAttribute("contents", boardService.get_all_contents());
+        return "redirect:/board/main/" + 1;
+    }
+
+    @PermitAll
+    @GetMapping("/main/{pageNum}")
+    public String page_get(
+            @PathVariable int pageNum,
+            Model model
+    ){
+        log.info("------------------------page_get-------------------");
+        int order = (pageNum - 1) * 10;
+        int allContentCnt = boardService.get_all_contents_cnt();
+        List<ContentVO> contents = boardService.get_contents_in_page(order);
+        ContentPageDTO contentPageDTO = new ContentPageDTO(allContentCnt, pageNum, contents);
+
+        log.info("contentPageDTO = " + contentPageDTO);
+        model.addAttribute("page", contentPageDTO);
+        return "/board/main";
     }
 
     // 검색
     @PermitAll
-    @GetMapping("/main/{selected}/{searchText}")
+    @GetMapping("/main/{selected}/{searchText}/{pageNum}")
     public String search_get(
             @PathVariable String selected,
             @PathVariable String searchText,
+            @PathVariable int pageNum,
             Model model){
         log.info("------------------------search_get-------------------");
         searchText = '%' + searchText + '%';

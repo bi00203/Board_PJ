@@ -24,7 +24,7 @@ main{
 table{
     border-top: 1px solid black;
     border-collapse: collapse;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 800px;
 }
 
@@ -54,6 +54,28 @@ th,td {
     height: 50px;
     font-size: 15px;
 }
+#page-container{
+    display: flex;
+    flex-direction: row;
+}
+ul{
+    width: 85%;
+    text-align: center;
+}
+li{
+    display: inline-block;
+    margin: 0px 5px;
+    cursor: pointer;
+    color: #9b9999;
+}
+li:hover{
+    font-weight: bold;
+    color: black;
+}
+.now-page{
+    font-weight: bold;
+    color: black;
+}
 .search-container{
     position: absolute;
     display: inline-flex;
@@ -71,6 +93,7 @@ section > div{
 }
 #write_btn{
     position: absolute;
+    margin-top: 13px;
     right: 0;
     cursor: pointer;
 }

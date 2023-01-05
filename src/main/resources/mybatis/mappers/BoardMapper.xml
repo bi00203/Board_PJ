@@ -11,6 +11,17 @@
         VALUES (#{writeInfo[0]}, #{writeInfo[1]}, #{writeInfo[2]}, #{writeInfo[3]})
     </insert>
 
+    <!-- 전체 글 개수 가져오기   -->
+    <select id="get_all_contents_cnt" resultType="_int">
+        SELECT count(*) FROM `content_tbl`;
+    </select>
+
+    <select id="get_contents_in_page" resultType="com.oes.board_pj.vos.ContentVO">
+        SELECT content.*,
+        (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
+        FROM `content_tbl` content ORDER BY content.`no` DESC LIMIT ${order},10;
+    </select>
+
     <!-- 메인에서 모든 글 받아오기  -->
     <select id="get_all_contents" resultType="com.oes.board_pj.vos.ContentVO">
 <!--        SELECT * FROM `content_tbl` ORDER BY `no` DESC-->
@@ -21,7 +32,10 @@
 
     <!-- 메인에서 검색한 글들 받아오기  -->
     <select id="get_search_contents" resultType="com.oes.board_pj.vos.ContentVO">
-        SELECT * FROM `content_tbl` WHERE `${selected}` LIKE #{searchText} ORDER BY `no` DESC;
+        SELECT content.*,
+        (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no`) AS hasReply
+        FROM `content_tbl` content WHERE content.`${selected}` LIKE #{searchText} ORDER BY content.`no` DESC;
+<!--        SELECT * FROM `content_tbl` WHERE `${selected}` LIKE #{searchText} ORDER BY `no` DESC;-->
     </select>
     <!-- 들어간 글 내용 받아오기   -->
     <select id="get_content" resultType="com.oes.board_pj.vos.ContentVO">
