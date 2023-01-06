@@ -4,6 +4,16 @@ const contentNo = document.getElementById("content-no").getAttribute('name')
 const commentForm = document.forms.namedItem('comment-form');
 const commentBtn = document.getElementById('comment-write');
 
+window.onload = () => {
+    document.title = title; // 글제목으로 바꿈
+    let commentNum = comments.length;
+    comments.forEach(comment => {
+        if(comment.deleted == 1){  // 더미가 걸리면 덧글수 -1
+            commentNum = commentNum - 1;
+        }
+    })
+    document.getElementById('commentNum-span').innerHTML = '댓글(' + commentNum + ')';
+}
 if(deleteBtn !== null) {
 // 글 삭제
     deleteBtn.addEventListener('click', () => {

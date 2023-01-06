@@ -20,4 +20,5 @@ public class CommentVO {
     LocalDateTime modifyDate;
     String id;
     int contentNo;
+    boolean isDeleted;
 }

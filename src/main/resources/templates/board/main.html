@@ -25,7 +25,7 @@
     <div>
         <button class="login-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|">로그인</button>
         <button class="register-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/register}'|">회원가입</button>
-        <button class="mypage-btn" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/user/register}'|">마이페이지</button>
+        <button class="mypage-btn" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/user/mypage/main}'|">마이페이지</button>
         <button class="logout-btn" sec:authorize="isAuthenticated()" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
     </div>
 </header>

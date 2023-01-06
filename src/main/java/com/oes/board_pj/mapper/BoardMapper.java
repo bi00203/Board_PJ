@@ -43,9 +43,6 @@ public interface BoardMapper {
     // 글 삭제
     boolean content_delete(int no);
 
-    // 글 삭제할때 덧글도 같이 삭제
-    boolean comment_delete_in_content(int no);
-
     // 글 수정
     boolean modify_content(int no, String title,String mainText);
 

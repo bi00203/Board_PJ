@@ -94,32 +94,37 @@ body{
 main{
     margin-top: 50px;
 }
+main > div{
+    align-items: center;
+}
 
 table{
+    margin-left:auto;
+    margin-right:auto;
     border-top: 1px solid black;
     border-collapse: collapse;
     margin-bottom: 5px;
-    width: 800px;
+    width: 1000px;
 }
 
-.no{
-    width: 5%
+.check-col{
+    cursor: pointer;
 }
 .title{
-    width: 65%;
     padding-left: 20px;
     cursor: pointer;
 }
-.writer{
-    width: 10%;
-
+.comment-title{
+    padding-left: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
-.date{
-    width: 15%
-}
-.view{
-    width: 5%;
+.title > span{
+    color: #ef8383;
+    font-size: 15px;
+    font-weight: bold;
 }
 tr{
     border-bottom: 1px solid rgba(112, 105, 105, 0.5);
@@ -127,4 +132,7 @@ tr{
 th,td {
     height: 50px;
     font-size: 15px;
+}
+tr:not(thead > tr):hover{
+    background-color: rgba(203, 194, 194, 0.5);
 }

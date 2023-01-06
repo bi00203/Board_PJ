@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 @Getter
 @Setter

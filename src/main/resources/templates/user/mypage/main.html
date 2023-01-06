@@ -6,9 +6,11 @@
   <meta charset="UTF-8">
   <title>마이페이지</title>
   <link th:href="@{/css/user/mypage/main.css}" rel="stylesheet" href="/static/css/user/mypage/main.css">
-  <!--<script th:inline="javascript">-->
   <script src="https://kit.fontawesome.com/2404a35405.js" crossorigin="anonymous"></script>
   <script th:src="@{/js/user/mypage/main.js}" defer></script>
+  <script th:inline="javascript">
+    const id = [[${#authentication.principal.id}]];
+  </script>
 </head>
 <body>
 <header>
@@ -17,12 +19,12 @@
       <i class="fa-sharp fa-solid fa-user-tie fa-10x"></i>
     </div>
     <div id="user-info">
-      <span id="head-nick">닉네임(아이디****)</span>
+      <span id="head-nick">[[${#authentication.principal.nick}]]([[${#authentication.principal.id}]])</span>
       <div>
-        <span>작성글 0</span>
-        <span>작성 댓글 0</span>
+        <span>작성글 [[${contentCnt}]]</span>
+        <span>작성 댓글 [[${commentCnt}]]</span>
       </div>
-      <span id="head-join">가입 : 2023-01-06</span>
+      <span id="head-join">가입 : [[${#temporals.format(#authentication.principal.joinDate, 'yyyy-MM-dd')}]]</span>
 
     </div>
     <div id="mypage-menu-container">
@@ -39,33 +41,30 @@
   </div>
 </header>
 <main>
+  <div id="selected-view">
   <table>
     <colgroup>
-      <col class="no" value="No">
-      <col class="title" value="제목">
-      <col class="writer" value="글쓴이">
-      <col class="date" value="작성일">
-      <col class="view" value="조회수">
+      <col class="check-col" value="체크">
+      <col class="comment-col" value="댓글">
     </colgroup>
     <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">제목</th>
-      <th scope="col">글쓴이</th>
-      <th scope="col">작성일</th>
-      <th scope="col">조회수</th>
-    </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">댓글</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-      <td>5</td>
-    </tr>
+      <tr height="70">
+        <td align="center"><input type="checkbox"></td>
+        <td class="comment-title">
+          <span>이건 댓글내용</span>
+          <span>이건 날짜</span>
+          <span>이건 글제목</span>
+        </td>
+      </tr>
     </tbody>
   </table>
+  </div>
 </main>
 </body>
 </html>

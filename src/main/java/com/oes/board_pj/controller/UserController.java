@@ -2,17 +2,21 @@ package com.oes.board_pj.controller;
 
 import com.oes.board_pj.dtos.UserDTO;
 import com.oes.board_pj.service.UserService;
+import com.oes.board_pj.vos.ContentVO;
 import com.oes.board_pj.vos.UserVO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.security.PermitAll;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -52,7 +56,30 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage/main")
-    public void mypage_main_get(){
+    public void mypage_main_get(
+            @AuthenticationPrincipal UserDTO userDTO,
+            Model model
+    ){
+        log.info("------------------------mypage_main_get-------------------");
+        String id = userDTO.getId();
 
+        int contentCnt = userService.get_content_cnt(id);
+        int commentCnt = userService.get_comment_cnt(id);
+
+        model.addAttribute("contentCnt", contentCnt);
+        model.addAttribute("commentCnt", commentCnt);
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    @GetMapping("/mypage/content")
+    public List<ContentVO> mypage_content_get(
+            @AuthenticationPrincipal UserDTO userDTO,
+            Model model
+    ){
+        log.info("------------------------mypage_content_get-------------------");
+        String id = userDTO.getId();
+        return userService.get_my_content(id);
     }
 }

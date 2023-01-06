@@ -86,6 +86,7 @@ public class BoardController {
         boardService.update_view(no);
         // 해당 글의 정보
         model.addAttribute("content",boardService.get_content(no));
+        // 해당 글의 댓글정보
         model.addAttribute("comments",boardService.get_all_comments(no));
         return "/board/content";
     }
@@ -95,9 +96,8 @@ public class BoardController {
     @GetMapping("/delete/{no}")
     public String content_delete( @PathVariable int no){
         log.info("-------------content_delete--------------");
+        //글 삭제
         boardService.content_delete(no);
-        //덧글도 삭제
-        boardService.comment_delete_in_content(no);
         return "redirect:/board/main";
     }
 

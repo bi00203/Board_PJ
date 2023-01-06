@@ -4,11 +4,14 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>[[$content.title]]</title>
+    <title></title>
     <script src="https://kit.fontawesome.com/2404a35405.js" crossorigin="anonymous"></script>
     <link th:href="@{/css/board/content.css}" rel="stylesheet" href="/static/css/board/content.css">
-    <!--<script th:inline="javascript">-->
     <script th:src="@{/js/board/content.js}" defer></script>
+    <script th:inline="javascript">
+        const title = [[${content.title}]];
+        const comments = [[${comments}]];
+    </script>
 </head>
 
 
@@ -18,7 +21,7 @@
             <span id="content-no" th:name="${content.no}" hidden>[[${content.no}]]</span>
             <span>[[${content.writer}]]</span>
             <span th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd HH:mm')}">[[${content.writeDate}]]</span>
-            <span>조회: [[${content.view}]]</span>
+            <span>조회: [[${content.view}]] </span>
         </div>
     </header>
 
@@ -39,7 +42,7 @@
                 <span id="modify-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">수정 |</span>
                 <span id="delete-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
                 <span th:onclick="|location.href='@{/board/main}'|" class="footer-span">목록 |</span>
-                <span class="footer-span">댓글([[${comments.size()}]])</span>
+                <span class="footer-span" id="commentNum-span"></span>
             </div>
             <div class="my-comment">
                 <form name="comment-form" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|" >

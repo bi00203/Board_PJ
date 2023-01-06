@@ -1,10 +1,13 @@
 package com.oes.board_pj.service;
 
 import com.oes.board_pj.mapper.UserMapper;
+import com.oes.board_pj.vos.ContentVO;
 import com.oes.board_pj.vos.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -20,7 +23,12 @@ public class UserService {
         return userMapper.register(vo);
     }
 
+    // 해당 유저의 글 개수
+    public int get_content_cnt(String id) { return userMapper.get_content_cnt(id);}
+    // 해당 유저의 덧글 개수
+    public int get_comment_cnt(String id) {return userMapper.get_comment_cnt(id);}
 
-
-
+    public List<ContentVO> get_my_content(String id) {
+        return userMapper.get_my_content(id);
+    }
 }
