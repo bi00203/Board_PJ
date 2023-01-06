@@ -1,0 +1,130 @@
+body{
+    display: flex;
+    flex-direction: column;
+    margin: 50px 300px 50px 300px;
+}
+#head-container{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #d2cccc;
+}
+#profile-icon{
+    width: 5%;
+    margin: 100px;
+}
+#user-info{
+    margin-top: 100px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+#user-info > div{
+    display: flex;
+    flex-direction: row;
+}
+#user-info > div > span{
+    margin-right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+#head-nick{
+    font-size: 30px;
+    font-weight: bold;
+    color: gray;
+    margin-bottom: 20px;
+}
+#head-join{
+    font-size: 30px;
+    font-weight: bold;
+    color: gray;
+    margin-bottom: 20px;
+}
+#mypage-menu-container{
+    display: flex;
+    flex-direction: row;
+    margin: 100px;
+}
+#content-menu{
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+}
+#content-menu > button{
+    width: 200px;
+    height: 45px;
+    margin-bottom: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    color: gray;
+    background-color: white;
+    border-radius: 5px;
+    border-color: gray;
+    cursor: pointer;
+}
+#content-menu > button:hover{
+    color: black;
+    border-color: black;
+    background-color: gray;
+}
+#user-menu{
+    display: flex;
+    flex-direction: column;
+}
+
+#user-menu > button{
+    width: 200px;
+    height: 45px;
+    margin-bottom: 30px;
+    font-size: 17px;
+    font-weight: bold;
+    color: gray;
+    background-color: white;
+    border-radius: 5px;
+    border-color: gray;
+    cursor: pointer;
+}
+#user-menu > button:hover{
+    color: black;
+    border-color: black;
+    background-color: gray;
+}
+main{
+    margin-top: 50px;
+}
+
+table{
+    border-top: 1px solid black;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+    width: 800px;
+}
+
+.no{
+    width: 5%
+}
+.title{
+    width: 65%;
+    padding-left: 20px;
+    cursor: pointer;
+}
+.writer{
+    width: 10%;
+
+}
+
+.date{
+    width: 15%
+}
+.view{
+    width: 5%;
+}
+tr{
+    border-bottom: 1px solid rgba(112, 105, 105, 0.5);
+}
+th,td {
+    height: 50px;
+    font-size: 15px;
+}

@@ -1,9 +1,12 @@
 package com.oes.board_pj.controller;
 
+import com.oes.board_pj.dtos.UserDTO;
 import com.oes.board_pj.service.UserService;
 import com.oes.board_pj.vos.UserVO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +48,11 @@ public class UserController {
         log.info(vo);
         userService.register(vo);
         return "redirect:/user/login";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mypage/main")
+    public void mypage_main_get(){
 
     }
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>마이페이지</title>
+  <link th:href="@{/css/user/mypage/main.css}" rel="stylesheet" href="/static/css/user/mypage/main.css">
+  <!--<script th:inline="javascript">-->
+  <script src="https://kit.fontawesome.com/2404a35405.js" crossorigin="anonymous"></script>
+  <script th:src="@{/js/user/mypage/main.js}" defer></script>
+</head>
+<body>
+<header>
+  <div id="head-container">
+    <div id="profile-icon">
+      <i class="fa-sharp fa-solid fa-user-tie fa-10x"></i>
+    </div>
+    <div id="user-info">
+      <span id="head-nick">닉네임(아이디****)</span>
+      <div>
+        <span>작성글 0</span>
+        <span>작성 댓글 0</span>
+      </div>
+      <span id="head-join">가입 : 2023-01-06</span>
+
+    </div>
+    <div id="mypage-menu-container">
+      <div id="content-menu">
+        <button>내 글</button>
+        <button>내 댓글</button>
+        <button>댓글단 글</button>
+      </div>
+      <div id="user-menu">
+        <button>회원정보변경</button>
+        <button>로그아웃</button>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <table>
+    <colgroup>
+      <col class="no" value="No">
+      <col class="title" value="제목">
+      <col class="writer" value="글쓴이">
+      <col class="date" value="작성일">
+      <col class="view" value="조회수">
+    </colgroup>
+    <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">제목</th>
+      <th scope="col">글쓴이</th>
+      <th scope="col">작성일</th>
+      <th scope="col">조회수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>
