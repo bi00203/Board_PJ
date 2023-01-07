@@ -24,11 +24,11 @@ public class UserService {
     }
 
     // 해당 유저의 글 개수
-    public int get_content_cnt(String id) { return userMapper.get_content_cnt(id);}
+    public int get_my_content_cnt(String id) { return userMapper.get_my_content_cnt(id);}
     // 해당 유저의 덧글 개수
-    public int get_comment_cnt(String id) {return userMapper.get_comment_cnt(id);}
+    public int get_my_comment_cnt(String id) { return userMapper.get_my_comment_cnt(id);}
 
-    public List<ContentVO> get_my_content(String id) {
-        return userMapper.get_my_content(id);
+    public List<ContentVO> get_my_content(String id,int order) {
+        return userMapper.get_my_content(id,order);
     }
 }

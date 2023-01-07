@@ -12,18 +12,18 @@
         SELECT * FROM `user_tbl` WHERE id = #{id}
     </select>
 
-    <select id="get_content_cnt" resultType="_int">
+    <select id="get_my_content_cnt" resultType="_int">
         SELECT count(*) FROM `content_tbl` WHERE `id` = #{id};
     </select>
 
-    <select id="get_comment_cnt" resultType="_int">
+    <select id="get_my_comment_cnt" resultType="_int">
         SELECT count(*) FROM `comment_tbl` WHERE `id` = #{id} AND `isDeleted` = 0;
     </select>
 
     <select id="get_my_content" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT content.*,
         (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no` AND comment.`isDeleted` = 0) AS hasReply
-        FROM `content_tbl` content WHERE content.`id` = #{id} ORDER BY content.`no` DESC LIMIT 0,10;
+        FROM `content_tbl` content WHERE content.`id` = #{id} ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
 </mapper>
 

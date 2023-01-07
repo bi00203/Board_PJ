@@ -136,3 +136,26 @@ th,td {
 tr:not(thead > tr):hover{
     background-color: rgba(203, 194, 194, 0.5);
 }
+
+#page-container{
+    display: flex;
+    flex-direction: row;
+}
+ul{
+    width: 85%;
+    text-align: center;
+}
+li{
+    display: inline-block;
+    margin: 0px 5px;
+    cursor: pointer;
+    color: #9b9999;
+}
+li:hover{
+    font-weight: bold;
+    color: black;
+}
+.now-page{
+    font-weight: bold;
+    color: black;
+}

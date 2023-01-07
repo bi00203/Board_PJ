@@ -16,9 +16,9 @@ public interface UserMapper {
     UserVO find_user(@Param("id") String username);
 
     // 해당 유저의 글 개수
-    int get_content_cnt(String id);
+    int get_my_content_cnt(String id);
     // 해당 유저의 덧글 개수
-    int get_comment_cnt(String id);
+    int get_my_comment_cnt(String id);
 
-    List<ContentVO> get_my_content(String id);
+    List<ContentVO> get_my_content(String id, int order);
 }

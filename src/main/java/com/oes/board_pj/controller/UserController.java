@@ -1,5 +1,6 @@
 package com.oes.board_pj.controller;
 
+import com.oes.board_pj.dtos.ContentPageDTO;
 import com.oes.board_pj.dtos.UserDTO;
 import com.oes.board_pj.service.UserService;
 import com.oes.board_pj.vos.ContentVO;
@@ -10,10 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import java.util.List;
@@ -63,23 +61,27 @@ public class UserController {
         log.info("------------------------mypage_main_get-------------------");
         String id = userDTO.getId();
 
-        int contentCnt = userService.get_content_cnt(id);
-        int commentCnt = userService.get_comment_cnt(id);
-
-        model.addAttribute("contentCnt", contentCnt);
-        model.addAttribute("commentCnt", commentCnt);
+        int myContentCnt = userService.get_my_content_cnt(id);
+        int myCommentCnt = userService.get_my_comment_cnt(id);
+        ContentPageDTO myContentPageDTO = new ContentPageDTO(myContentCnt,1);
+        ContentPageDTO myCommentPageDTO = new ContentPageDTO(myCommentCnt,1);
+        log.info("myContentPageDTO = " + myContentPageDTO);
+        log.info("myCommentPageDTO = " + myCommentPageDTO);
+        model.addAttribute("myContentPage", myContentPageDTO);
+        model.addAttribute("myCommentPage", myCommentPageDTO);
 
     }
 
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
-    @GetMapping("/mypage/content")
+    @GetMapping("/mypage/content/{pageNum}")
     public List<ContentVO> mypage_content_get(
             @AuthenticationPrincipal UserDTO userDTO,
-            Model model
+            @PathVariable int pageNum
     ){
         log.info("------------------------mypage_content_get-------------------");
         String id = userDTO.getId();
-        return userService.get_my_content(id);
+        int order = (pageNum - 1) * 10;
+        return userService.get_my_content(id,order);
     }
 }
