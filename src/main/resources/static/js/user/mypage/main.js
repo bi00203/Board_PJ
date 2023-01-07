@@ -2,9 +2,12 @@ const selectedView = document.getElementById('selected-view').getElementsByTagNa
 const PageViewUl = document.getElementById('page-container').getElementsByTagName('ul').item(0);
 
 const [contentBtn, commentBtn, postWithCommentBtn] = [...document.getElementById('content-menu').getElementsByTagName('button')];
-const [changeInfoBtn, logoutBtn] = [...document.getElementById('user-menu').getElementsByTagName('button')];
+const [changeInfoBtn, logoutBtn, moveMainBtn] = [...document.getElementById('user-menu').getElementsByTagName('button')];
 const firstContentPageInfo = [myContentNowPageNum,myContentStartPageNum,myContentEndPageNum];
 const firstCommentPageInfo = [myCommentNowPageNum, myCommentStartPageNum, myCommentEndPageNum];
+const firstPostsWithCommentPageInfo = [postsWithCommentNowPageNum, postsWithCommentStartPageNum, postsWithCommentEndPageNum];
+
+const selectList = document.getElementsByName("content-select");
 let selectFlag = 'CONTENT';
 get_content_by_id(1);
 
@@ -18,11 +21,13 @@ contentBtn.onclick = () => {
 commentBtn.onclick = () => {
     selectFlag = 'COMMENT';
     reset_page_info(); // 다른 페이지 정보들 리셋
+    get_comment_by_id(1);
 }
 
 postWithCommentBtn.onclick = () => {
-    selectFlag = 'POST_WITH_COMMENT';
+    selectFlag = 'POSTS_WITH_COMMENT';
     reset_page_info(); // 다른 페이지 정보들 리셋
+    get_posts_with_comment_by_id(1);
 }
 
 changeInfoBtn.onclick = () => {
@@ -33,6 +38,10 @@ logoutBtn.onclick = () => {
     location.href=`/logout`;
 }
 
+moveMainBtn.onclick = () =>{
+    location.href='/board/main';
+}
+// 내 글 가져오기
 function get_content_by_id(pageNum){
     console.log("가져오기")
     const request = new XMLHttpRequest();
@@ -44,11 +53,11 @@ function get_content_by_id(pageNum){
         }
     }
 }
-
+// 내 글 목록 화면에 띄우기
 function create_content_data(contentDatas){
     selectedView.innerHTML = '';
     selectedView.insertAdjacentHTML('beforeend','<colgroup>\n' +
-        '        <col class="check-col" value="체크">\n' +
+        '        <col class="check-col">\n' +
         '        <col class="no" value="번호">\n' +
         '        <col class="title" value="제목">\n' +
         '        <col class="date" value="작성일">\n' +
@@ -56,29 +65,116 @@ function create_content_data(contentDatas){
         '      </colgroup>\n' +
         '      <thead>\n' +
         '      <tr>\n' +
-        '        <th scope="col"></th>\n' +
+        '        <th scope="col"><input type="checkbox" name="content-select" onclick="all_check(this)"></th>\n' +
         '        <th scope="col">번호</th>\n' +
         '        <th scope="col">제목</th>\n' +
         '        <th scope="col">작성일</th>\n' +
         '        <th scope="col">조회수</th>\n' +
         '      </tr>\n' +
-        '      </thead>\n' +
-        '      <tbody>')
+        '      </thead>\n');
     for(data of contentDatas) {
         let date = new Date(data.writeDate);
         selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
-            `      <td align="center"><input type="checkbox"></td>\n` +
+            `      <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
             `      <td align="center">${data.no}</td>\n` +
             `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
+            `      <td align="center">${date.toLocaleString()}</td>\n` +
+            `      <td align="center">${data.view}</td>\n` +
+            '    </tr>\n');
+    }
+    console.log(contentDatas);
+    view_page_list();
+}
+
+// 내 댓글 가져오기
+function get_comment_by_id(pageNum){
+    console.log("덧글 가져오기")
+    const request = new XMLHttpRequest();
+    request.open('GET', '/user/mypage/comment/' + pageNum);
+    request.send();
+    request.onload = () => {
+        if(request.status === 200){
+            create_comment_data(JSON.parse(request.response));
+        }
+    }
+}
+// 내 댓글 목록 화면에 띄우기
+function create_comment_data(commentDatas){
+    selectedView.innerHTML = '';
+    selectedView.insertAdjacentHTML('beforeend','<colgroup>\n' +
+        '      <col class="check-col" value="체크">\n' +
+        '      <col class="comment-col" value="댓글">\n' +
+        '    </colgroup>\n' +
+        '    <thead>\n' +
+        '      <tr>\n' +
+        '        <th scope="col"><input type="checkbox" name="content-select" onclick="all_check(this)"></th>\n' +
+        '        <th scope="col">댓글</th>\n' +
+        '      </tr>\n' +
+        '    </thead>\n' +
+        '    <tbody>');
+    for(data of commentDatas) {
+        let date = new Date(data.writeDate);
+        selectedView.insertAdjacentHTML('beforeend', '<tr height="70">\n' +
+            `        <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
+            `        <td class="comment-title" onclick="location.href='/board/content/${data.parentNo}'">\n` +
+            `          <span class="comment-info-span">${data.commentText}</span>\n` +
+            `          <span class="comment-date-span">${date.toLocaleString()}</span>\n` +
+            `          <span class="post-with-comment-span">${data.title}<span>(${data.hasReply})</span></span></td>\n` +
+            '      </tr>');
+    }
+    selectedView.insertAdjacentHTML('beforeend','</tbody>');
+    console.log(commentDatas);
+    view_page_list();
+}
+
+// 내 댓글이 달린 글 가져오기
+function get_posts_with_comment_by_id(pageNum){
+    console.log("포스트 가져오기")
+    const request = new XMLHttpRequest();
+    request.open('GET', '/user/mypage/posts/' + pageNum);
+    request.send();
+    request.onload = () => {
+        if(request.status === 200){
+            create_posts_with_comment_data(JSON.parse(request.response));
+        }
+    }
+}
+// 내 댓글이 달린 글 목록 띄우기
+function create_posts_with_comment_data(postDatas){
+    selectedView.innerHTML = '';
+    selectedView.insertAdjacentHTML('beforeend','<colgroup>\n' +
+        '        <col width="5%" class="no" value="번호">\n' +
+        '        <col width="64%" class="title" value="제목">\n' +
+        '        <col width="8%" class="writer" value="작성자">\n' +
+        '        <col width="15%" class="date" value="작성일">\n' +
+        '        <col width="8%" class="view" value="조회수">\n' +
+        '      </colgroup>\n' +
+        '      <thead>\n' +
+        '      <tr>\n' +
+        '        <th scope="col">번호</th>\n' +
+        '        <th scope="col">제목</th>\n' +
+        '        <th scope="col">작성자</th>\n' +
+        '        <th scope="col">작성일</th>\n' +
+        '        <th scope="col">조회수</th>\n' +
+        '      </tr>\n' +
+        '      </thead>\n' +
+        '      <tbody>');
+    for(data of postDatas) {
+        let date = new Date(data.writeDate);
+        selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
+            `      <td align="center">${data.no}</td>\n` +
+            `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
+            `      <td align="center">${data.writer}</td>\n` +
             `      <td align="center">${date.toLocaleString()}</td>\n` +
             `      <td align="center">${data.view}</td>\n` +
             '    </tr>');
     }
     selectedView.insertAdjacentHTML('beforeend','</tbody>');
-    console.log(contentDatas);
+    console.log(postDatas);
     view_page_list();
 }
 
+// 페이지 목록 띄우기
 function view_page_list(){
     PageViewUl.innerHTML = '';
     let startPageNum = 0;
@@ -98,7 +194,11 @@ function view_page_list(){
             nowPageNum = myCommentNowPageNum;
             allPageCnt = myCommentAllPageCnt
             break;
-        case 'POST_WITH_COMMENT':
+        case 'POSTS_WITH_COMMENT':
+            startPageNum = postsWithCommentStartPageNum;
+            endPageNum = postsWithCommentEndPageNum;
+            nowPageNum = postsWithCommentNowPageNum;
+            allPageCnt = postsWithCommentAllPageCnt;
             break;
         default:
             break;
@@ -133,7 +233,9 @@ function show_prev_page_list(){
             myCommentStartPageNum = myCommentStartPageNum - 5;
             myCommentEndPageNum = myCommentEndPageNum - 4;
             break;
-        case 'POST_WITH_COMMENT':
+        case 'POSTS_WITH_COMMENT':
+            postsWithCommentStartPageNum = postsWithCommentStartPageNum - 5;
+            postsWithCommentEndPageNum = postsWithCommentEndPageNum - 4;
             break;
         default:
             break;
@@ -162,9 +264,17 @@ function show_next_page_list(){
                 myCommentEndPageNum = myCommentStartPageNum + 4;
             }
             break;
-        case 'POST_WITH_COMMENT':
+        case 'POSTS_WITH_COMMENT':
+            postsWithCommentStartPageNum = postsWithCommentStartPageNum + 5;
+            if(postsWithCommentStartPageNum + 4 > postsWithCommentAllPageCnt){
+                postsWithCommentEndPageNum = postsWithCommentAllPageCnt;
+            }
+            else{
+                postsWithCommentEndPageNum = postsWithCommentStartPageNum + 4;
+            }
             break;
         default:
+            alert('페이지 넘버 수정 예외 발생');
             break;
     }
     view_page_list();
@@ -178,28 +288,41 @@ function move_page(pageNum){
             get_content_by_id(pageNum);
             break;
         case 'COMMENT':
+            myCommentNowPageNum = pageNum;
+            get_comment_by_id(pageNum);
             break;
-        case 'POST_WITH_COMMENT':
+        case 'POSTS_WITH_COMMENT':
+            postsWithCommentNowPageNum = pageNum;
+            get_posts_with_comment_by_id(pageNum);
             break;
         default:
+            alert('페이지 이동 예외 발생');
             break;
     }
 }
 
+// 다른 버튼 클릭시 페이징 정보들을 초기화 한다
 function reset_page_info(){
     switch (selectFlag) {
         case 'CONTENT':
-            //댓글 페이지 정보 초기로
             myCommentNowPageNum = firstCommentPageInfo[0];
             myCommentStartPageNum = firstCommentPageInfo[1];
             myCommentEndPageNum = firstCommentPageInfo[2];
+
+            postsWithCommentNowPageNum = firstPostsWithCommentPageInfo[0];
+            postsWithCommentStartPageNum = firstPostsWithCommentPageInfo[1];
+            postsWithCommentEndPageNum = firstPostsWithCommentPageInfo[2];
             break;
         case 'COMMENT':
             myContentNowPageNum = firstContentPageInfo[0];
             myContentStartPageNum = firstContentPageInfo[1];
             myContentEndPageNum = firstContentPageInfo[2];
+
+            postsWithCommentNowPageNum = firstPostsWithCommentPageInfo[0];
+            postsWithCommentStartPageNum = firstPostsWithCommentPageInfo[1];
+            postsWithCommentEndPageNum = firstPostsWithCommentPageInfo[2];
             break;
-        case 'POST_WITH_COMMENT':
+        case 'POSTS_WITH_COMMENT':
             myContentNowPageNum = firstContentPageInfo[0];
             myContentStartPageNum = firstContentPageInfo[1];
             myContentEndPageNum = firstContentPageInfo[2];
@@ -209,11 +332,60 @@ function reset_page_info(){
             myCommentEndPageNum = firstCommentPageInfo[2];
             break;
         default:
+            alert('리셋 페이지 예외 발생');
             break;
     }
 }
-// '<li>\n' +
-// `          <img src="/images/program/${data.programName}/poster/${data.watchOrder}.webp" alt="">\n` +
-// `          <div>${data.title} ${data.watchOrder}화</div>\n` +
-// `          <div>${data.watchDate} 시청</div>\n` +
-// '        </li>');
+
+function all_check(allSelect){
+    selectList.forEach( (select) =>{
+        select.checked= allSelect.checked;
+    })
+}
+// 체크된 것들 삭제
+function delete_checked_info(){
+    let mySelectList = [];
+    let listSize = 0;
+    selectList.forEach( (select)  =>{
+        if(select.checked == true){
+            if(select.value != "on") {
+                mySelectList.push(select.value);
+                console.log("value : " + select.value);
+            }
+        }
+    })
+    console.log("mylist : " +mySelectList)
+    listSize = mySelectList.length;
+    if(listSize == 0){
+        alert("체크된 항목이 없습니다");
+        return false;
+    }
+    if(confirm('정말 삭제하시겠습니까?') == false){
+        return false;
+    }
+
+    console.log(selectFlag);
+    switch (selectFlag) {
+        case 'CONTENT':
+            for(let i = 0 ; i <listSize ; i++){
+                console.log(mySelectList[i] +'번 글 삭제됨');
+                const request = new XMLHttpRequest();
+                request.open('GET', '/board/delete/' + mySelectList[i],false);
+                request.send();
+            }
+            break;
+        case 'COMMENT':
+            for(let i = 0 ; i <listSize ; i++){
+                console.log(mySelectList[i] +'번 댓글 삭제됨');
+                const request = new XMLHttpRequest();
+                request.open('GET', '/user/comment/delete/' + mySelectList[i],false);
+                request.send();
+            }
+            break;
+        default:
+            alert('삭제 예외 발생');
+            break;
+    }
+
+    location.href = `/user/mypage/main`;
+}

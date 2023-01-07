@@ -20,10 +20,28 @@
         SELECT count(*) FROM `comment_tbl` WHERE `id` = #{id} AND `isDeleted` = 0;
     </select>
 
+    <select id="get_posts_with_comment_cnt" resultType="_int">
+        SELECT count(DISTINCT content.`no`) FROM `content_tbl` content INNER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo` WHERE comment.`id`=#{id} AND comment.`isDeleted` = 0;
+    </select>
+
     <select id="get_my_content" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT content.*,
         (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no` AND comment.`isDeleted` = 0) AS hasReply
         FROM `content_tbl` content WHERE content.`id` = #{id} ORDER BY content.`no` DESC LIMIT ${order},10;
+    </select>
+
+    <select id="get_my_comment" resultType="hashmap">
+        SELECT comment.`no`, comment.`commentText`, comment.`writeDate`,
+            (SELECT content.`title` FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS title,
+            (SELECT count(*) FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS hasReply
+        FROM `comment_tbl` comment WHERE comment.`id` = #{id} AND comment.`isDeleted` = 0 ORDER BY comment.`writeDate` DESC LIMIT ${order},10;
+    </select>
+
+    <select id="get_posts_with_comment" resultType="com.oes.board_pj.vos.ContentVO">
+        SELECT content.*,
+        (SELECT count(comment.`no`) FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS hasReply
+        FROM `content_tbl` content INNER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo`
+        WHERE comment.`id`= #{id} AND comment.`isDeleted` = 0 GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
 </mapper>
 

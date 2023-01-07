@@ -21,6 +21,13 @@
     let myCommentNowPageNum = [[${myCommentPage.nowPageNum}]];
     let myCommentStartPageNum = [[${myCommentPage.startPageNum}]];
     let myCommentEndPageNum = [[${myCommentPage.endPageNum}]];
+
+    // 내 댓글이 있는 글
+    const postsWithCommentAllPageCnt = [[${postsWithCommentPage.allPageCnt}]];
+    let postsWithCommentNowPageNum = [[${postsWithCommentPage.nowPageNum}]];
+    let postsWithCommentStartPageNum = [[${postsWithCommentPage.startPageNum}]];
+    let postsWithCommentEndPageNum = [[${postsWithCommentPage.endPageNum}]];
+
   </script>
 </head>
 <body>
@@ -47,6 +54,7 @@
       <div id="user-menu">
         <button>회원정보변경</button>
         <button>로그아웃</button>
+        <button>메인으로</button>
       </div>
     </div>
   </div>
@@ -54,37 +62,12 @@
 <main>
   <div id="selected-view">
   <table>
-    <colgroup>
-      <col class="check-col" value="체크">
-      <col class="comment-col" value="댓글">
-    </colgroup>
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        <th scope="col">댓글</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr height="70">
-        <td align="center"><input type="checkbox"></td>
-        <td class="comment-title">
-          <span class="comment-info-span">이건 댓글내용</span>
-          <span class="comment-date-span">이건 날짜</span>
-          <span class="post-with-comment-span">이건 글제목</span>
-        </td>
-      </tr>
-    </tbody>
   </table>
     <div id="page-container">
       <ul>
-        <li onclick="show_prev_page_list()">이전</li>
-        <li value= '1' onclick="move_page(this.value)">1</li>
-        <li value='2' onclick="move_page(this.value)">2</li>
-        <li class="now-page" value='3' onclick="move_page(this.value)">3</li>
-        <li value='4' onclick="move_page(this.value)">4</li>
-        <li value='5' onclick="move_page(this.value)">5</li>
-        <li onclick="show_next_page_list()">다음</li>
+            <!--   페이징 목록     -->
       </ul>
+      <input type="button" value="삭제하기" onclick="delete_checked_info()">
     </div>
   </div>
 </main>

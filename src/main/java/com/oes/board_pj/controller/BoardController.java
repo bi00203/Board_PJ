@@ -209,4 +209,6 @@ public class BoardController {
         }
         return "redirect:/board/content/" + contentNo;
     }
+
+
 }

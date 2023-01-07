@@ -5,6 +5,7 @@ import com.oes.board_pj.vos.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -19,6 +20,12 @@ public interface UserMapper {
     int get_my_content_cnt(String id);
     // 해당 유저의 덧글 개수
     int get_my_comment_cnt(String id);
+    // 해당 유저의 댓글이 달린 글 개수
+    int get_posts_with_comment_cnt(String id);
 
     List<ContentVO> get_my_content(String id, int order);
+
+    List<HashMap<String, Object>> get_my_comment(String id, int order);
+
+    List<ContentVO> get_posts_with_comment(String id, int order);
 }
