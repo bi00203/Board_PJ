@@ -28,4 +28,6 @@ public interface UserMapper {
     List<HashMap<String, Object>> get_my_comment(String id, int order);
 
     List<ContentVO> get_posts_with_comment(String id, int order);
+
+    boolean modify_user(UserVO vo);
 }

@@ -32,17 +32,16 @@ table{
     width: 5%
 }
 .title{
-    width: 65%;
+    width: 60%;
     padding-left: 20px;
     cursor: pointer;
 }
 .writer{
-    width: 10%;
-
+    width: 20%;
 }
 
 .date{
-    width: 15%
+    width: 10%
 }
 .view{
     width: 5%;

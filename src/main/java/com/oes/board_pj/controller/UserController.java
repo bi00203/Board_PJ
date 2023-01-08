@@ -149,4 +149,24 @@ public class UserController {
 
         return true;
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mypage/info")
+    public void info_get(){
+        log.info("------------------------info_get-------------------");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/mypage/info")
+    public String info_post(
+            @AuthenticationPrincipal UserDTO userDTO,
+            UserVO vo){
+        log.info("------------------------info_post-------------------");
+        log.info(vo);
+        if(userService.modify_user(vo)){
+            userDTO.setNick(vo.getNick());
+            userDTO.setEmail(vo.getEmail());
+        }
+        return "redirect:/user/mypage/main";
+    }
 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보변경</title>
+</head>
+<link th:href="@{/css/user/mypage/info.css}" rel="stylesheet" href="/static/css/user/mypage/info.css">
+<!--<script th:inline="javascript">-->
+<script th:src="@{/js/user/mypage/info.js}" defer></script>
+<body>
+<header>
+    <h1>회원정보수정</h1>
+</header>
+<main>
+    <form name="info-form">
+        <div id="info-container">
+            <div class="info-input">
+                <div class="info-input-div">
+                    <span>아이디</span>
+                    <span id="info-input-id">[[${#authentication.principal.id}]]</span>
+                    <input type="text" name="id" th:value="${#authentication.principal.id}" hidden>
+                </div>
+            </div>
+
+            <div class="info-input">
+                <div class="info-input-div">
+                    <span>닉네임</span>
+                    <input id="info-input-nick" type="text" value="ee" th:value="${#authentication.principal.nick}" name="nick">
+                </div>
+                <span>특수문자 제외 2~10 자리</span>
+            </div>
+            <div class="info-input">
+                <div class="info-input-div">
+                    <span>이메일</span>
+                    <input id="info-input-name" type="text" value="ee" th:value="${#authentication.principal.email}" name="email">
+                </div>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="info-buttons">
+            <input type="button" value="확인">
+            <input type="button" value="돌아가기">
+        </div>
+    </form>
+</main>
+</body>
+</html>

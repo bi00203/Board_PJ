@@ -72,8 +72,10 @@ body{
     font-size: 12px;
     color: gray;
 }
-.footer-span:hover{
+#footer-select > span:hover{
     cursor: pointer;
+    color: black;
+    font-size: 14px;
     font-weight: bold;
 }
 .my-comment{
@@ -165,9 +167,11 @@ i{
 
 .reply-btns > input:hover{
     color: blue;
+    text-decoration-line: underline;
 }
 .comment-btns > input:hover{
     color: blue;
+    text-decoration-line: underline;
 }
 
 #main-btn{

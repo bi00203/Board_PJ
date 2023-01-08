@@ -31,7 +31,7 @@ postWithCommentBtn.onclick = () => {
 }
 
 changeInfoBtn.onclick = () => {
-
+    location.href=`/user/mypage/info`;
 }
 
 logoutBtn.onclick = () => {
@@ -72,15 +72,26 @@ function create_content_data(contentDatas){
         '        <th scope="col">조회수</th>\n' +
         '      </tr>\n' +
         '      </thead>\n');
-    for(data of contentDatas) {
-        let date = new Date(data.writeDate);
+
+    if(contentDatas.length == 0){
         selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
-            `      <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
-            `      <td align="center">${data.no}</td>\n` +
-            `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
-            `      <td align="center">${date.toLocaleString()}</td>\n` +
-            `      <td align="center">${data.view}</td>\n` +
+            '      <td align="center" colspan="5">작성하신 글이 없습니다</td>\n' +
             '    </tr>\n');
+    }
+    else {
+        for (data of contentDatas) {
+            let date = new Date(data.writeDate);
+            date = date.toLocaleString('ko-Kr',
+                { hourCycle : "h23", year :"numeric",month : "2-digit", day : "2-digit",
+                        hour :"2-digit", minute : "2-digit"});
+            selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
+                `      <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
+                `      <td align="center">${data.no}</td>\n` +
+                `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
+                `      <td align="center">${date}</td>\n` +
+                `      <td align="center">${data.view}</td>\n` +
+                '    </tr>\n');
+        }
     }
     console.log(contentDatas);
     view_page_list();
@@ -110,19 +121,28 @@ function create_comment_data(commentDatas){
         '        <th scope="col"><input type="checkbox" name="content-select" onclick="all_check(this)"></th>\n' +
         '        <th scope="col">댓글</th>\n' +
         '      </tr>\n' +
-        '    </thead>\n' +
-        '    <tbody>');
-    for(data of commentDatas) {
-        let date = new Date(data.writeDate);
-        selectedView.insertAdjacentHTML('beforeend', '<tr height="70">\n' +
-            `        <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
-            `        <td class="comment-title" onclick="location.href='/board/content/${data.parentNo}'">\n` +
-            `          <span class="comment-info-span">${data.commentText}</span>\n` +
-            `          <span class="comment-date-span">${date.toLocaleString()}</span>\n` +
-            `          <span class="post-with-comment-span">${data.title}<span>(${data.hasReply})</span></span></td>\n` +
-            '      </tr>');
+        '    </thead>\n');
+
+    if(commentDatas.length == 0){
+        selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
+            '      <td align="center" colspan="2">작성하신 댓글이 없습니다</td>\n' +
+            '    </tr>\n');
     }
-    selectedView.insertAdjacentHTML('beforeend','</tbody>');
+    else {
+        for (data of commentDatas) {
+            let date = new Date(data.writeDate);
+            date = date.toLocaleString('ko-Kr',
+                { hourCycle : "h23", year :"numeric",month : "2-digit", day : "2-digit",
+                            hour :"2-digit", minute : "2-digit"});
+            selectedView.insertAdjacentHTML('beforeend', '<tr height="70">\n' +
+                `        <td align="center"><input type="checkbox" name="content-select" value="${data.no}"></td>\n` +
+                `        <td class="comment-title" onclick="location.href='/board/content/${data.parentNo}'">\n` +
+                `          <span class="comment-info-span">${data.commentText}</span>\n` +
+                `          <span class="comment-date-span">${date}</span>\n` +
+                `          <span class="post-with-comment-span">${data.title}<span>(${data.hasReply})</span></span></td>\n` +
+                '      </tr>');
+        }
+    }
     console.log(commentDatas);
     view_page_list();
 }
@@ -157,19 +177,27 @@ function create_posts_with_comment_data(postDatas){
         '        <th scope="col">작성일</th>\n' +
         '        <th scope="col">조회수</th>\n' +
         '      </tr>\n' +
-        '      </thead>\n' +
-        '      <tbody>');
-    for(data of postDatas) {
-        let date = new Date(data.writeDate);
+        '      </thead>\n');
+    if(postDatas.length == 0){
         selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
-            `      <td align="center">${data.no}</td>\n` +
-            `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
-            `      <td align="center">${data.writer}</td>\n` +
-            `      <td align="center">${date.toLocaleString()}</td>\n` +
-            `      <td align="center">${data.view}</td>\n` +
-            '    </tr>');
+            '      <td align="center" colspan="5">댓글을 작성한 글이 없습니다</td>\n' +
+            '    </tr>\n');
     }
-    selectedView.insertAdjacentHTML('beforeend','</tbody>');
+    else {
+        for (data of postDatas) {
+            let date = new Date(data.writeDate);
+            date = date.toLocaleString('ko-Kr',
+                { hourCycle : "h23", year :"numeric", month : "2-digit", day : "2-digit",
+                            hour :"2-digit", minute : "2-digit"});
+            selectedView.insertAdjacentHTML('beforeend', '<tr>\n' +
+                `      <td align="center">${data.no}</td>\n` +
+                `      <td class="title" onclick="location.href='/board/content/${data.no}'">${data.title}<span>(${data.hasReply})</span></td>\n` +
+                `      <td align="center">${data.writer}</td>\n` +
+                `      <td align="center">${date}</td>\n` +
+                `      <td align="center">${data.view}</td>\n` +
+                '    </tr>');
+        }
+    }
     console.log(postDatas);
     view_page_list();
 }

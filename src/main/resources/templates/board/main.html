@@ -21,7 +21,7 @@
 
 <body>
 <header>
-    <h1 th:onclick="|location.href='@{/board/main}'|">일단 게시판</h1>
+    <h1 th:onclick="|location.href='@{/board/main}'|">자유게시판</h1>
     <div>
         <button class="login-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/login}'|">로그인</button>
         <button class="register-btn" sec:authorize="isAnonymous()" th:onclick="|location.href='@{/user/register}'|">회원가입</button>
@@ -55,7 +55,7 @@
                     <td align="center">[[${content.no}]]</td>
                     <td class="title" th:onclick="|location.href='@{/board/content/{no}(no=${content.no})}'|"><span>[[${content.title}]]</span><span class="reply-cnt">[<span>[[${content.hasReply}]]</span>]</span></td>
                     <td align="center">[[${content.writer}]]</td>
-                    <td align="center" th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd HH:mm')}">[[${content.writeDate}]]</td>
+                    <td align="center" th:text="${#temporals.format(content.writeDate, 'yyyy.MM.dd HH:mm')}">[[${content.writeDate}]]</td>
                     <td align="center">[[${content.view}]]</td>
                 </tr>
                 </tbody>

@@ -20,7 +20,7 @@
         <div id="header-info">
             <span id="content-no" th:name="${content.no}" hidden>[[${content.no}]]</span>
             <span>[[${content.writer}]]</span>
-            <span th:text="${#temporals.format(content.writeDate, 'yyyy-MM-dd HH:mm')}">[[${content.writeDate}]]</span>
+            <span th:text="${#temporals.format(content.writeDate, 'yyyy.MM.dd HH:mm')}">[[${content.writeDate}]]</span>
             <span>조회: [[${content.view}]] </span>
         </div>
     </header>
@@ -39,7 +39,7 @@
     <footer>
         <div id="comment-container">
             <div id="footer-select">
-                <span id="modify-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">수정 |</span>
+<!--                <span id="modify-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">수정 |</span>-->
                 <span id="delete-span" class="footer-span" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == content.id}">삭제 |</span>
                 <span th:onclick="|location.href='@{/board/main}'|" class="footer-span">목록 |</span>
                 <span class="footer-span" id="commentNum-span"></span>
@@ -63,13 +63,13 @@
                         <div class="is-reply-info">
                             <p class="comment-nick">[[${comment.writer}]]
                                 <span th:if="${comment.id == content.id}" class="content-writer">(작성자)</span>
-                                <span class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy-MM-dd hh:mm:ss')}]])</span>
+                                <span class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy.MM.dd hh:mm:ss')}]])</span>
                                 <span class="comment-modify" th:if="${comment.writeDate != comment.modifyDate}">(수정됨)</span>
                             </p>
                             <span class="comment-text">[[${comment.commentText}]]</span>
                             <div class="reply-btns">
                                 <input type="number" th:value="${comment.no}" hidden>
-                                <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id}">
+<!--                                <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id}">-->
                                 <input type="button" value="삭제" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id}" onclick="delete_comment(this)">
                             </div>
                         </div>
@@ -78,13 +78,13 @@
                     <div class="is-comment" th:if="${comment.no == comment.parentNo}">
                         <p class="comment-nick">[[${comment.writer}]]
                             <span th:if="${comment.id == content.id}" class="content-writer">(작성자)</span>
-                            <span th:if="${comment.writer != '삭제된 댓글'}" class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy-MM-dd hh:mm:ss')}]])</span>
+                            <span th:if="${comment.writer != '삭제된 댓글'}" class="comment-date"> ([[${#temporals.format(comment.writeDate, 'yyyy.MM.dd hh:mm:ss')}]])</span>
                             <span th:if="${comment.writer != '삭제된 댓글' && comment.writeDate != comment.modifyDate }" class="comment-modify">(수정됨)</span>
                         </p>
                         <span class="comment-text">[[${comment.commentText}]]</span>
                         <div class="comment-btns">
                             <input type="number" th:value="${comment.no}" hidden>
-                            <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id && comment.writer != '삭제된 댓글'}">
+<!--                            <input type="button" value="수정" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id && comment.writer != '삭제된 댓글'}">-->
                             <input type="button" value="삭제" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.id == comment.id && comment.writer != '삭제된 댓글'}" onclick="delete_comment(this)">
                             <input type="button" value="답글" sec:authorize="isAnonymous()" th:if="${comment.writer != '삭제된 댓글'}" th:onclick="|location.href='@{/user/login}'|">
                             <input type="button" value="답글" sec:authorize="isAuthenticated()" th:if="${comment.writer != '삭제된 댓글'}" onclick="display_reply(this)">

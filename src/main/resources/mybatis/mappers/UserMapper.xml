@@ -43,6 +43,10 @@
         FROM `content_tbl` content INNER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo`
         WHERE comment.`id`= #{id} AND comment.`isDeleted` = 0 GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
+
+    <update id="modify_user" parameterType="com.oes.board_pj.vos.UserVO">
+        UPDATE `user_tbl` SET `nick` = #{nick}, `email` = #{email} WHERE `id` = #{id};
+    </update>
 </mapper>
 
 

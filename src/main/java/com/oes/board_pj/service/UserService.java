@@ -43,4 +43,8 @@ public class UserService {
     public List<ContentVO> get_posts_with_comment(String id, int order) {
         return userMapper.get_posts_with_comment(id, order);
     }
+
+    public boolean modify_user(UserVO vo) {
+        return userMapper.modify_user(vo);
+    }
 }
