@@ -37,10 +37,10 @@
     </select>
 
     <select id="get_my_comment" resultType="hashmap">
-        SELECT comment.`no`, comment.`commentText`, comment.`writeDate`, comment.`contentNo`,
-            (SELECT content.`title` FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS title,
+        SELECT comment.`no`, comment.`commentText`, comment.`writeDate`, comment.`contentNo`,content.`title`,
             (SELECT count(*) FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS hasReply
-        FROM `comment_tbl` comment WHERE comment.`id` = #{id} AND comment.`isDeleted` = 0 ORDER BY comment.`writeDate` DESC LIMIT ${order},10;
+        FROM `content_tbl` content INNER JOIN `comment_tbl` comment
+        ON comment.contentNo = content.no WHERE comment.`id` = #{id} AND comment.`isDeleted` = 0 ORDER BY comment.`writeDate` DESC LIMIT ${order},10;
     </select>
 
 <!--    <select id="get_posts_with_comment" resultType="com.oes.board_pj.vos.ContentVO">-->
