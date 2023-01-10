@@ -31,19 +31,20 @@ public class UserService {
     // 해당 유저가 쓴 댓글이 달린 글 개수
     public int get_posts_with_comment_cnt(String id) {return userMapper.get_posts_with_comment_cnt(id);}
 
-    public List<ContentVO> get_my_content(String id,int order) {
+    //내 글 목록
+    public List<HashMap<String, Object>> get_my_content(String id,int order) {
         return userMapper.get_my_content(id,order);
     }
-
+    // 내 댓글 목록
     public List<HashMap<String,Object>> get_my_comment(String id, int order) {
         return userMapper.get_my_comment(id,order);
     }
 
-
+    // 내 댓글이 있는 글 목록
     public List<ContentVO> get_posts_with_comment(String id, int order) {
         return userMapper.get_posts_with_comment(id, order);
     }
-
+    // 회원 정보 수정
     public boolean modify_user(UserVO vo) {
         return userMapper.modify_user(vo);
     }

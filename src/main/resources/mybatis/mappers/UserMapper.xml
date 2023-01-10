@@ -3,51 +3,41 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oes.board_pj.mapper.UserMapper">
+    <!-- 회원가입   -->
     <insert id="register" parameterType="com.oes.board_pj.vos.UserVO">
         INSERT INTO `user_tbl` (`id`, `password`,`nick`, `email`)
         VALUES (#{id}, #{password}, #{nick}, #{email})
     </insert>
-
+    <!--  로그인 유저가 있는지 검사  -->
     <select id="find_user" resultType="com.oes.board_pj.vos.UserVO">
         SELECT * FROM `user_tbl` WHERE id = #{id}
     </select>
-
+    <!--  내가 쓴 글 개수  -->
     <select id="get_my_content_cnt" resultType="_int">
         SELECT count(*) FROM `content_tbl` WHERE `id` = #{id};
     </select>
-
+    <!--  내가 쓴 댓글 개수  -->
     <select id="get_my_comment_cnt" resultType="_int">
         SELECT count(*) FROM `comment_tbl` WHERE `id` = #{id} AND `isDeleted` = 0;
     </select>
-
+    <!--  내가 쓴 댓글이 있는 글 개수  -->
     <select id="get_posts_with_comment_cnt" resultType="_int">
         SELECT count(DISTINCT content.`no`) FROM `content_tbl` content INNER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo` WHERE comment.`id`=#{id} AND comment.`isDeleted` = 0;
     </select>
 
-<!--    <select id="get_my_content" resultType="com.oes.board_pj.vos.ContentVO">-->
-<!--        SELECT content.*,-->
-<!--        (SELECT count(*) FROM `comment_tbl` comment WHERE comment.`contentNo` = content.`no` AND comment.`isDeleted` = 0) AS hasReply-->
-<!--        FROM `content_tbl` content WHERE content.`id` = #{id} ORDER BY content.`no` DESC LIMIT ${order},10;-->
-<!--    </select>-->
-
-    <select id="get_my_content" resultType="com.oes.board_pj.vos.ContentVO">
-        SELECT content.*, COUNT(content.`no`) AS 'hasReply'
+    <!--  내가 쓴 글 가져오기  -->
+    <select id="get_my_content" resultType="hashmap">
+        SELECT content.`no`, content.`title`,content.`writeDate`, content.`view`,count(content.`no`) AS hasReply , comment.`isDeleted`
         FROM `content_tbl` content LEFT OUTER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo`
-        WHERE content.`id` = #{id} AND comment.`isDeleted` = 0 GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;
+        WHERE content.`id` = #{id} AND (comment.`isDeleted` = 0 OR comment.`isDeleted` IS NULL) GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
-
+    <!--  내가 쓴 댓글 가져오기 -->
     <select id="get_my_comment" resultType="hashmap">
         SELECT comment.`no`, comment.`commentText`, comment.`writeDate`, comment.`contentNo`,content.`title`
         FROM `content_tbl` content INNER JOIN `comment_tbl` comment
         ON comment.contentNo = content.no WHERE comment.`id` = #{id} AND comment.`isDeleted` = 0 ORDER BY comment.`writeDate` DESC LIMIT ${order},10;
     </select>
-
-<!--    <select id="get_posts_with_comment" resultType="com.oes.board_pj.vos.ContentVO">-->
-<!--        SELECT content.*, COUNT(COMMENT.`NO`) AS 'hasReply'-->
-<!--        FROM `content_tbl` content INNER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo`-->
-<!--        WHERE comment.`id`= #{id} AND comment.`isDeleted` = 0 GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;-->
-<!--    </select>-->
-
+    <!--  내가 쓴 댓글이 있는 글 가져오기  -->
     <select id="get_posts_with_comment" resultType="com.oes.board_pj.vos.ContentVO">
         SELECT CONTENT.*, COUNT(CONTENT.`no`) AS hasReply FROM `content_tbl` CONTENT
         INNER JOIN `comment_tbl` COMMENT
@@ -55,7 +45,7 @@
         WHERE CONTENT.`no` IN (SELECT DISTINCT `contentNo` FROM comment_tbl WHERE `id` = #{id}) AND COMMENT.`isDeleted` = 0
         GROUP BY CONTENT.`no` ORDER BY CONTENT.`no` DESC LIMIT ${order},10;
     </select>
-
+    <!-- 회원정보수정   -->
     <update id="modify_user" parameterType="com.oes.board_pj.vos.UserVO">
         UPDATE `user_tbl` SET `nick` = #{nick}, `email` = #{email} WHERE `id` = #{id};
     </update>

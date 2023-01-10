@@ -82,6 +82,9 @@ function create_content_data(contentDatas){
     }
     else {
         for (data of contentDatas) {
+            if(data.isDeleted == null){ // 댓글 개수가 null값도 세므로 제외
+                data.hasReply = 0;
+            }
             let date = new Date(data.writeDate);
             date = date.toLocaleString('ko-Kr',
                 { hourCycle : "h23", year :"numeric",month : "2-digit", day : "2-digit",

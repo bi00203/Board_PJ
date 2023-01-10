@@ -27,6 +27,8 @@ public class UserController {
     @Autowired
     BoardService boardService;
 
+
+    //    로그인
     @PermitAll
     @GetMapping("/login")
     public void login_get(){
@@ -40,7 +42,7 @@ public class UserController {
 
         return "redirect:/board/main";
     }
-
+    //회원가입
     @PermitAll
     @GetMapping("/register")
     public void register_get(){
@@ -55,7 +57,7 @@ public class UserController {
         userService.register(vo);
         return "redirect:/user/login";
     }
-
+    //마이페이지 메인, default: 내가 쓴 글 목록 1페이지
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage/main")
     public void mypage_main_get(
@@ -82,10 +84,11 @@ public class UserController {
         model.addAttribute("postsWithCommentPage",postsWithCommentPageDTO);
     }
 
+    // 내가 쓴 글 목록
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     @GetMapping("/mypage/content/{pageNum}")
-    public List<ContentVO> mypage_content_get(
+    public List<HashMap<String, Object>> mypage_content_get(
             @AuthenticationPrincipal UserDTO userDTO,
             @PathVariable int pageNum
     ){
@@ -94,7 +97,7 @@ public class UserController {
         int order = (pageNum - 1) * 10;
         return userService.get_my_content(id,order);
     }
-
+    // 내가 쓴 댓글 목록
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     @GetMapping("/mypage/comment/{pageNum}")
@@ -110,6 +113,7 @@ public class UserController {
         return result;
     }
 
+    // 내가 쓴 댓글이 있는 글 목록
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
     @GetMapping("/mypage/posts/{pageNum}")
@@ -123,6 +127,7 @@ public class UserController {
         return userService.get_posts_with_comment(id,order);
     }
 
+    // 마이페이지에서 글 삭제
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/content/{no}")
     public boolean content_delete_in_mypage( @PathVariable int no){
@@ -133,6 +138,7 @@ public class UserController {
         return true;
     }
 
+    // 마이페이지에서 댓글 삭제
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/comment/delete/{no}")
     public boolean comment_delete_in_mypage(
@@ -150,6 +156,7 @@ public class UserController {
         return true;
     }
 
+    //마이페이지 회원 정보 수정
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mypage/info")
     public void info_get(){
