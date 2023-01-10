@@ -47,7 +47,7 @@ public class BoardController {
 
         log.info("contentPageDTO = " + contentPageDTO);
         model.addAttribute("page", contentPageDTO);
-        return "/board/main";
+        return "board/main";
     }
 
     // 검색, 최초는 1페이지로
@@ -71,7 +71,7 @@ public class BoardController {
         // 검색상태를 유지한 채 페이지 이동을 위해 해당 변수를 다시 전달한다
         model.addAttribute("selected",selected);
         model.addAttribute("searchText",backupSearchText);
-        return "/board/main";
+        return "board/main";
     }
 
     // 글을 클릭했을 때
@@ -88,7 +88,7 @@ public class BoardController {
         model.addAttribute("content",boardService.get_content(no));
         // 해당 글의 댓글정보
         model.addAttribute("comments",boardService.get_all_comments(no));
-        return "/board/content";
+        return "board/content";
     }
 
     // 글 삭제
@@ -121,7 +121,7 @@ public class BoardController {
         log.info("------------------------modify_get-------------------");
         log.info(boardService.get_content(no));
         model.addAttribute("content",boardService.get_content(no));
-        return "/board/write";
+        return "board/write";
     }
 
     // 수정 버튼 눌렀을시

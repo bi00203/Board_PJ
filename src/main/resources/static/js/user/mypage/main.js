@@ -144,7 +144,7 @@ function create_comment_data(commentDatas){
                 `        <td class="comment-title" onclick="location.href='/board/content/${data.contentNo}'">\n` +
                 `          <span class="comment-info-span">${data.commentText}</span>\n` +
                 `          <span class="comment-date-span">${date}</span>\n` +
-                `          <span class="post-with-comment-span">${data.title}<span>(${data.hasReply})</span></span></td>\n` +
+                `          <span class="post-with-comment-span">${data.title}</span></td>\n` +
                 '      </tr>');
         }
     }

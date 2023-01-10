@@ -31,14 +31,13 @@
 <!--    </select>-->
 
     <select id="get_my_content" resultType="com.oes.board_pj.vos.ContentVO">
-        SELECT content.*, COUNT(COMMENT.`NO`) AS 'hasReply'
+        SELECT content.*, COUNT(content.`no`) AS 'hasReply'
         FROM `content_tbl` content LEFT OUTER JOIN `comment_tbl` comment ON content.`no` = comment.`contentNo`
         WHERE content.`id` = #{id} AND comment.`isDeleted` = 0 GROUP BY content.`no` ORDER BY content.`no` DESC LIMIT ${order},10;
     </select>
 
     <select id="get_my_comment" resultType="hashmap">
-        SELECT comment.`no`, comment.`commentText`, comment.`writeDate`, comment.`contentNo`,content.`title`,
-            (SELECT count(*) FROM `content_tbl` content WHERE content.`no` = comment.`contentNo` AND comment.`isDeleted` = 0) AS hasReply
+        SELECT comment.`no`, comment.`commentText`, comment.`writeDate`, comment.`contentNo`,content.`title`
         FROM `content_tbl` content INNER JOIN `comment_tbl` comment
         ON comment.contentNo = content.no WHERE comment.`id` = #{id} AND comment.`isDeleted` = 0 ORDER BY comment.`writeDate` DESC LIMIT ${order},10;
     </select>
