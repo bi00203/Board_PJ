@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.PermitAll;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Controller
@@ -49,6 +50,7 @@ public class UserController {
         log.info("------------------------register_get-------------------");
     }
 
+    //회원가입 성공
     @PermitAll
     @PostMapping("/register")
     public String register_post(UserVO vo){
@@ -56,6 +58,28 @@ public class UserController {
         log.info(vo);
         userService.register(vo);
         return "redirect:/user/login";
+    }
+    //아이디, 닉네임, 이메일 중복 검사
+    @PermitAll
+    @PostMapping("/register/check")
+    @ResponseBody
+    public int register_check(@RequestBody String data){
+        log.info("------------------------register_check-------------------");
+        log.info(data); //최초 형태 "id=1234"
+        int len = data.length() - 1;
+        String tag = data.substring(1,len).split("=")[0]; // id 부분만 추출
+        data = data.substring(1,len).split("=")[1]; // 1234 부분만 추출
+        log.info(data);
+        switch (tag){ // id,nick,email로 분기 중복되는 아이디가 있다면 1 없다면 0을 리턴한다
+            case "id":
+                return userService.check_same_id(data);
+            case "nick":
+                return userService.check_same_nick(data);
+            case "email":
+                return userService.check_same_email(data);
+            default:
+                return 0;
+        }
     }
     //마이페이지 메인, default: 내가 쓴 글 목록 1페이지
     @PreAuthorize("isAuthenticated()")

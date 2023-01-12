@@ -21,7 +21,9 @@ main{
 }
 .info-input > span{
     padding-left: 70px;
-    color: #757585;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ec4646;
 }
 .info-input-div{
     display: flex;

@@ -48,4 +48,15 @@ public class UserService {
     public boolean modify_user(UserVO vo) {
         return userMapper.modify_user(vo);
     }
+
+    // 아이디, 이메일, 닉네임 중복 검사
+    public int check_same_id(String data) {
+        return userMapper.check_same_id(data);
+    }
+    public int check_same_nick(String data) {
+        return userMapper.check_same_nick(data);
+    }
+    public int check_same_email(String data) {
+        return userMapper.check_same_email(data);
+    }
 }

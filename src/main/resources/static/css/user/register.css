@@ -17,10 +17,15 @@ main{
     flex-direction: column;
 }
 .register-input{
+    width: 420px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 .register-input > span{
-    color: #757585;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ec4646;
 }
 .register-input-div{
     display: flex;

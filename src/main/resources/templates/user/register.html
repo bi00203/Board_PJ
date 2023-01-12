@@ -5,10 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <link th:href="@{/css/user/register.css}" rel="stylesheet" href="/static/css/user/register.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script th:src="@{/js/user/register.js}" defer></script>
 </head>
-<link th:href="@{/css/user/register.css}" rel="stylesheet" href="/static/css/user/register.css">
-<!--<script th:inline="javascript">-->
-<script th:src="@{/js/user/register.js}" defer></script>
+
 <body>
     <header>
         <h1>회원가입</h1>
@@ -18,36 +19,36 @@
             <div id="register-container">
                     <div class="register-input">
                         <div class="register-input-div">
-                            <input id="register-input-id" type="text" placeholder="아이디" name="id">
+                            <input id="register-input-id" type="text" placeholder="아이디    영문 또는 영문, 숫자 조합 6~12 자리" name="id">
                         </div>
-                        <span>영문 또는 영문, 숫자 조합 6~12 자리</span>
+                        <span id = id-warn-span></span>
                     </div>
 
                     <div class="register-input">
                         <div class="register-input-div">
-                            <input id="register-input-pw" type="text" placeholder="비밀번호" name="password">
+                            <input id="register-input-pw" type="password" placeholder="비밀번호   영문, 숫자, 특수문자 조합 8~15 자리" name="password">
                         </div>
-                        <span>영문, 숫자, 특수문자(~!@#$%^&*) 조합 8~15 자리</span>
+                        <span id = pw-warn-span></span>
                     </div>
 
                     <div class="register-input">
                         <div class="register-input-div">
-                            <input id="register-input-pw-re" type="text" placeholder="비밀번호 확인">
+                            <input id="register-input-pw-re" type="password" placeholder="비밀번호 확인">
                         </div>
-                        <span></span>
+                        <span id = pw-re-warn-span></span>
                     </div>
 
                     <div class="register-input">
                         <div class="register-input-div">
-                            <input id="register-input-nick" type="text" placeholder="닉네임" name="nick">
+                            <input id="register-input-nick" type="text" placeholder="닉네임   특수문자 제외 2~10 자리" name="nick">
                         </div>
-                        <span>특수문자 제외 2~10 자리</span>
+                        <span id = nick-warn-span></span>
                     </div>
                     <div class="register-input">
                         <div class="register-input-div">
                             <input id="register-input-name" type="text" placeholder="이메일" name="email">
                         </div>
-                        <span></span>
+                        <span id = email-warn-span></span>
                     </div>
             </div>
 

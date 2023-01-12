@@ -31,4 +31,9 @@ public interface UserMapper {
     List<ContentVO> get_posts_with_comment(String id, int order);
     // 회원 정보 수정
     boolean modify_user(UserVO vo);
+
+    // 아이디, 이메일, 닉네임 중복 검사
+    int check_same_id(String data);
+    int check_same_nick(String data);
+    int check_same_email(String data);
 }

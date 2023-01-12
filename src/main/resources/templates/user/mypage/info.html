@@ -5,10 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <title>회원정보변경</title>
+    <link th:href="@{/css/user/mypage/info.css}" rel="stylesheet" href="/static/css/user/mypage/info.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script th:src="@{/js/user/mypage/info.js}" defer></script>
+    <script th:inline="javascript">
+        const myNick = [[${#authentication.principal.nick}]];
+        const myEmail = [[${#authentication.principal.email}]]
+    </script>
 </head>
-<link th:href="@{/css/user/mypage/info.css}" rel="stylesheet" href="/static/css/user/mypage/info.css">
-<!--<script th:inline="javascript">-->
-<script th:src="@{/js/user/mypage/info.js}" defer></script>
+
 <body>
 <header>
     <h1>회원정보수정</h1>
@@ -29,14 +34,14 @@
                     <span>닉네임</span>
                     <input id="info-input-nick" type="text" value="ee" th:value="${#authentication.principal.nick}" name="nick">
                 </div>
-                <span>특수문자 제외 2~10 자리</span>
+                <span id = nick-warn-span></span>
             </div>
             <div class="info-input">
                 <div class="info-input-div">
                     <span>이메일</span>
-                    <input id="info-input-name" type="text" value="ee" th:value="${#authentication.principal.email}" name="email">
+                    <input id="info-input-email" type="text" value="ee" th:value="${#authentication.principal.email}" name="email">
                 </div>
-                <span></span>
+                <span id ="email-warn-span"></span>
             </div>
         </div>
 
